@@ -9,6 +9,7 @@ const fileSchema = new mongoose.Schema({
   size: { type: Number, required: true },
   uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   type: { type: String, enum: ["input", "output"], required: true },
+  downloaded: { type: Boolean, default: false }, // New field to track downloads
   createdAt: { type: Date, default: Date.now },
 });
 
