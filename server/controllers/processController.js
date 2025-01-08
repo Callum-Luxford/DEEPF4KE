@@ -1,106 +1,3 @@
-// const { spawn } = require("child_process");
-// const path = require("path");
-// const fs = require("fs");
-// const File = require("../models/File");
-
-// exports.processFile = async (req, res) => {
-//   console.log("Request received at /process");
-//   console.log("Request body:", req.body);
-
-//   try {
-//     const { imageId, videoId } = req.body;
-
-//     // Find the input files in MongoDB
-//     const sourceImage = await File.findById(imageId);
-//     const inputVideo = await File.findById(videoId);
-
-//     if (!sourceImage || !inputVideo) {
-//       return res.status(404).json({ error: "Files not found" });
-//     }
-
-//     const outputDirectory = path.join(__dirname, "../uploads/outputs");
-//     if (!fs.existsSync(outputDirectory)) {
-//       fs.mkdirSync(outputDirectory, { recursive: true });
-//       console.log("Output directory created.");
-//     }
-
-//     const uniqueFilename = `output_${Date.now()}.mp4`;
-//     const outputPath = path.join(outputDirectory, uniqueFilename);
-
-//     console.log("Spawning Python process...");
-//     console.log("Source Image Path:", sourceImage.path);
-//     console.log("Input Video Path:", inputVideo.path);
-//     console.log("Output Path:", outputPath);
-
-//     // Spawn the Python process
-//     const pythonProcess = spawn("python", [
-//       path.join(__dirname, "../../roop/run.py"),
-//       "-s",
-//       sourceImage.path,
-//       "-t",
-//       inputVideo.path,
-//       "-o",
-//       outputPath,
-//       "--execution-provider",
-//       "cuda",
-//     ]);
-
-//     // Monitor Python script execution
-//     pythonProcess.stdout.on("data", (data) =>
-//       console.log(`Python stdout: ${data}`)
-//     );
-//     pythonProcess.stderr.on("data", (data) =>
-//       console.error(`Python stderr: ${data}`)
-//     );
-
-//     pythonProcess.on("close", async (code) => {
-//       if (code !== 0) {
-//         console.error("Python script exited with code:", code);
-//         return res.status(500).json({ error: "Error processing file" });
-//       }
-
-//       if (!fs.existsSync(outputPath)) {
-//         console.error("Output file was not created at:", outputPath);
-//         return res.status(500).json({ error: "Output file not found" });
-//       }
-
-//       // Save metadata for future cloud storage support
-//       try {
-//         const outputFile = await File.create({
-//           originalName: uniqueFilename,
-//           filename: uniqueFilename,
-//           path: outputPath,
-//           mimetype: "video/mp4",
-//           size: fs.statSync(outputPath).size,
-//           uploadedBy: req.user.id,
-//           type: "output",
-//         });
-
-//         // Serve the file for download
-//         res.download(outputPath, uniqueFilename, (err) => {
-//           if (err) {
-//             console.error("Error during file download:", err);
-//           } else {
-//             // Delete the file after successful download
-//             try {
-//               fs.unlinkSync(outputPath);
-//               console.log("Temporary file deleted:", outputPath);
-//             } catch (unlinkErr) {
-//               console.error("Error deleting temporary file:", unlinkErr);
-//             }
-//           }
-//         });
-//       } catch (error) {
-//         console.error("Error saving file metadata:", error);
-//         res.status(500).json({ error: "Error saving file metadata" });
-//       }
-//     });
-//   } catch (error) {
-//     console.error("Error processing file:", error.message, error.stack);
-//     res.status(500).json({ error: "Error processing file" });
-//   }
-// };
-
 const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");
@@ -112,6 +9,12 @@ exports.processFile = async (req, res) => {
 
   try {
     const { imageIds, videoIds } = req.body;
+
+    if (!req.user || !req.user.id) {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized. User not logged in." });
+    }
 
     if (!Array.isArray(imageIds) || !Array.isArray(videoIds)) {
       return res
@@ -185,7 +88,7 @@ exports.processFile = async (req, res) => {
                 path: outputPath,
                 mimetype: "video/mp4",
                 size: fs.statSync(outputPath).size,
-                uploadedBy: req.user.id,
+                uploadedBy: req.user.id, // Ensure this is defined
                 type: "output",
               });
 

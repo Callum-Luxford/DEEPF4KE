@@ -1,0 +1,20 @@
+<h1>
+    <%= title %>
+</h1>
+
+<% if (typeof error !=="undefined" && error ) { %>
+    <div class="error-message">
+        <p>
+            <%= error %>
+        </p>
+    </div>
+    <% } %>
+
+        <form action="/auth/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p><a href="/auth/signup">Don't you have an account? Sign up</a></p>
