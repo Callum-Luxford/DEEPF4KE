@@ -54,6 +54,20 @@ exports.processFile = async (req, res) => {
     const images = await File.find({ _id: { $in: imageObjectIds } });
     const videos = await File.find({ _id: { $in: videoObjectIds } });
 
+    // Ensure only one face image
+    if (images.length !== 1) {
+      return res.status(400).json({
+        error: "Please upload exactly one face image.",
+      });
+    }
+
+    // Ensure at least one reel video
+    if (videos.length === 0) {
+      return res.status(400).json({
+        error: "Please upload at least one reel video.",
+      });
+    }
+
     if (images.length === 0 || videos.length === 0) {
       return res.status(404).json({ error: "Files not found" });
     }

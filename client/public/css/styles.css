@@ -10,40 +10,48 @@
     background-color: #f9f9f9;
 }
 
-.preview-area img,
-.preview-area video {
-    max-width: 100px;
-    margin: 5px;
-    display: block;
-}
-
-.preview-area {
+.preview-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 10px;
 }
 
-.preview-item {
+.uploaded-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f5f5f5;
     position: relative;
-    display: inline-block;
-    margin: 5px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.preview-item img,
-.preview-item video {
-    max-width: 100px;
-    max-height: 100px;
-    display: block;
+.uploaded-image,
+.uploaded-video {
+    max-width: 100%;
+    border-radius: 5px;
 }
 
-.remove-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: red;
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.remove-btn,
+.swap-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
     color: white;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
-    padding: 2px 5px;
+}
+
+.remove-btn:hover,
+.swap-btn:hover {
+    background-color: #0056b3;
 }

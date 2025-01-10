@@ -5,22 +5,24 @@
 
 <!-- Face Upload Section -->
 <div class="upload-section">
-    <h2>Upload Face Images</h2>
+    <h2>Upload Face Image</h2>
     <div id="face-upload-area" class="upload-area">
-        <p>Drag and drop face images here, or click to select files</p>
-        <input type="file" id="face-upload" accept="image/*" multiple />
+        <input type="file" id="face-upload" accept="image/*" />
+        <div id="face-preview-container" class="preview-container">
+            <!-- Face image will dynamically populate here -->
+        </div>
     </div>
-    <div id="face-preview-area" class="preview-area"></div>
 </div>
 
 <!-- Reel Upload Section -->
 <div class="upload-section">
     <h2>Upload Reel Videos</h2>
     <div id="reel-upload-area" class="upload-area">
-        <p>Drag and drop reel videos here, or click to select files</p>
         <input type="file" id="reel-upload" accept="video/*" multiple />
+        <div id="reel-preview-container" class="preview-container">
+            <!-- Reels will dynamically populate here -->
+        </div>
     </div>
-    <div id="reel-preview-area" class="preview-area"></div>
 </div>
 
 <!-- Processing Section -->
@@ -34,6 +36,6 @@
 <div class="outputs-section">
     <h2>Generated Outputs</h2>
     <div id="outputs" class="outputs-container">
-        <!-- Outputs will be dynamically inserted here -->
+        <!-- Outputs will dynamically populate here -->
     </div>
 </div>
