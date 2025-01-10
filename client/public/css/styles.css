@@ -1,0 +1,49 @@
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    background-color: #f9f9f9;
+}
+
+.preview-area img,
+.preview-area video {
+    max-width: 100px;
+    margin: 5px;
+    display: block;
+}
+
+.preview-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preview-item {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+
+.preview-item img,
+.preview-item video {
+    max-width: 100px;
+    max-height: 100px;
+    display: block;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 2px 5px;
+}

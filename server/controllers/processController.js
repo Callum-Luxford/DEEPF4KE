@@ -2,6 +2,7 @@ const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 const File = require("../models/File");
+const mongoose = require("mongoose");
 
 exports.processFile = async (req, res) => {
   console.log("Request received at /process");
@@ -22,8 +23,36 @@ exports.processFile = async (req, res) => {
         .json({ error: "Image IDs and Video IDs must be arrays" });
     }
 
-    const images = await File.find({ _id: { $in: imageIds } });
-    const videos = await File.find({ _id: { $in: videoIds } });
+    // Validate ObjectIds
+    const validateObjectId = (id) =>
+      mongoose.Types.ObjectId.isValid(id) &&
+      String(new mongoose.Types.ObjectId(id)) === id;
+
+    const invalidImageIds = imageIds.filter((id) => !validateObjectId(id));
+    const invalidVideoIds = videoIds.filter((id) => !validateObjectId(id));
+
+    if (invalidImageIds.length > 0 || invalidVideoIds.length > 0) {
+      console.log("Invalid IDs detected:", {
+        invalidImageIds,
+        invalidVideoIds,
+      });
+      return res.status(400).json({
+        error: "Invalid IDs provided.",
+        invalidImageIds,
+        invalidVideoIds,
+      });
+    }
+
+    const imageObjectIds = imageIds.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    );
+    const videoObjectIds = videoIds.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    );
+
+    console.log("Fetching files from database...");
+    const images = await File.find({ _id: { $in: imageObjectIds } });
+    const videos = await File.find({ _id: { $in: videoObjectIds } });
 
     if (images.length === 0 || videos.length === 0) {
       return res.status(404).json({ error: "Files not found" });
