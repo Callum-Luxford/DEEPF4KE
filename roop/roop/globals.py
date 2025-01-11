@@ -20,3 +20,6 @@ max_memory: Optional[int] = None
 execution_providers: List[str] = []
 execution_threads: Optional[int] = None
 log_level: str = 'error'
+
+# Added default for extended duration handling
+max_video_duration: int = 20  # Default duration in seconds, adjustable as needed

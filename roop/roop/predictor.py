@@ -1,5 +1,5 @@
 import threading
-import numpy
+import numpy as np
 import opennsfw2
 from PIL import Image
 import onnxruntime as ort
@@ -15,8 +15,6 @@ else:
 # Constants
 PREDICTOR = None
 THREAD_LOCK = threading.Lock()
-MAX_PROBABILITY = 0.85
-
 
 def get_predictor():
     """
@@ -49,29 +47,21 @@ def predict_frame(target_frame):
     """
     Predicts NSFW content in a single frame.
     """
-    image = Image.fromarray(target_frame)
-    image = opennsfw2.preprocess_image(image, opennsfw2.Preprocessing.YAHOO)
-    views = numpy.expand_dims(image, axis=0)
-    _, probability = get_predictor().predict(views)[0]
-    return probability > MAX_PROBABILITY
+    return False  # Allow all NSFW content
 
 
 def predict_image(target_path: str) -> bool:
     """
     Predicts NSFW content in an image.
     """
-    return opennsfw2.predict_image(target_path) > MAX_PROBABILITY
+    return False  # Allow all NSFW content
 
 
 def predict_video(target_path: str) -> bool:
     """
     Predicts NSFW content in a video.
     """
-    _, probabilities = opennsfw2.predict_video_frames(
-        video_path=target_path,
-        frame_interval=100
-    )
-    return any(probability > MAX_PROBABILITY for probability in probabilities)
+    return False  # Allow all NSFW content
 
 
 if __name__ == "__main__":

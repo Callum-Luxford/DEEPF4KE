@@ -27,7 +27,8 @@ def process_videos(source_image, input_videos, output_directory, limit):
                     "-s", source_image,
                     "-t", input_video,
                     "-o", output_video,
-                    "--execution-provider", "cpu"
+                    "--execution-provider", "cuda",
+                    "--max-duration", "20"
                 ],
                 check=True
             )

@@ -15,7 +15,6 @@ FACE_SWAPPER = None
 THREAD_LOCK = threading.Lock()
 NAME = 'ROOP.FACE-SWAPPER'
 
-
 def get_face_swapper() -> Any:
     global FACE_SWAPPER
 
