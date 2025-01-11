@@ -31,7 +31,7 @@ def process_videos(source_image, input_videos, output_directory, limit):
                 ],
                 check=True
             )
-            print(f"Processed: {input_video} -> {output_video}")
+            print(f"Successfully processed: {input_video} -> {output_video}")
             processed_count += 1
 
         except subprocess.CalledProcessError as e:

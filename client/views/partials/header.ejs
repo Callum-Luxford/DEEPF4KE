@@ -1,17 +1,27 @@
 <header>
-    <a href="/" class="logo">DEEPF4KE</a>
+    <div class="nav-container">
+        <a href="/" class="header-logo">DEEPF4KE</a>
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-        <% console.log("EJS - user:", user); %> <!-- Debug user -->
-            <% if (user) { %>
-                <a href="/dashboard">Dashboard</a>
-                <a href="/auth/logout">Logout</a>
-                <% } else { %>
-                    <a href="/auth/login">Login</a>
-                    <a href="/auth/signup">Sign Up</a>
-                    <% } %>
-    </nav>
+        <nav class="header-nav">
+            <ul class="nav-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <% console.log("EJS - user:", user); %> <!-- Debug user -->
+                    <% if (user) { %>
+                        <a href="/dashboard">Dashboard</a>
+                        <a href="/auth/logout">Logout</a>
+                        <% } else { %>
+                            <a href="/auth/login">Login</a>
+                            <a class="sign-up btn" href="/auth/signup">Sign Up</a>
+                            <% } %>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="menu-button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
 </header>

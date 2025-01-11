@@ -1,5 +1,5 @@
 .upload-area {
-    border: 2px dashed #ccc;
+    border: 2px dashed var(--font-clr-light);
     border-radius: 8px;
     padding: 20px;
     text-align: center;
@@ -7,7 +7,7 @@
 }
 
 .upload-area:hover {
-    background-color: #f9f9f9;
+    background-color: var(--theme-clr-secondary);
 }
 
 .preview-container {
