@@ -1,20 +1,30 @@
-<h1>
-    <%= title %>
-</h1>
+<section class="login-signup-section">
 
-<% if (typeof error !=="undefined" && error ) { %>
-    <div class="error-message">
-        <p>
-            <%= error %>
-        </p>
+    <div class="login-signup-logo-container">
+        <img src="../images/logo2.png">
     </div>
-    <% } %>
 
-        <form action="/auth/signup" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Sign Up</button>
-        </form>
-        <p><a href="/auth/login">Do you have an account? Log in</a></p>
+
+    <h1 class="login-signup-title">
+        <%= title %>
+    </h1>
+
+    <% if (typeof error !=="undefined" && error ) { %>
+        <div class="error-message">
+            <p>
+                <%= error %>
+            </p>
+        </div>
+        <% } %>
+            <div class="login-signup-form-container">
+                <form class="login-signup-form" id="signup" action="/auth/signup" method="POST">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </form>
+                <button type="submit" form="signup" class="login-signup-btn btn">Sign Up</button>
+                <p><a href="/auth/login">Already have an account? Login</a></p>
+            </div>
+
+</section>

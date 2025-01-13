@@ -17,10 +17,9 @@ header {
     width: 100%;
 }
 
-.header-logo {
-    color: var(--font-clr-light);
-    font-size: var(--font-size-2xl);
-    font-weight: 600;
+.header-logo img {
+    object-fit: contain;
+    width: 8rem;
 }
 
 .menu-button {
@@ -102,11 +101,16 @@ header {
 
     .header-nav .nav-links .sign-up {
         background-color: var(--btn-primary-color);
+        border-radius: var(--btn-border-radius);
+        border: 1px solid transparent;
+        padding: 4px;
     }
-
     .header-nav .nav-links .sign-up:hover {
         text-decoration: none !important;
         background-color: var(--btn-secondary-color);
+    }
+    .header-nav .nav-links .sign-up:active {
+        border: 1px solid #f6f6f6;
     }
 
 }

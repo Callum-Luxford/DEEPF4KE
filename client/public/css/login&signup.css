@@ -1,0 +1,103 @@
+@import url('../css/root.css');
+
+/* Login & Signup */
+.login-signup-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+}
+
+.login-signup-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-signup-logo-container img {
+    display: block;
+    height: auto;
+    object-fit: cover;
+    width: 60%;
+}
+
+.login-signup-title {
+    text-align: center;
+    font-size: var(--font-clamp-xl);
+}
+
+.login-signup-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    max-width: 600px;
+}
+
+.login-signup-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+}
+
+.login-signup-form input {
+    border: 1px solid var(--font-clr-light);
+    border-radius: 25px;
+    outline: none;
+    width: 100%;
+    background: transparent;
+    caret-color: #fff;
+    font-size: var(--font-clamp-xl);
+    color: var(--font-clr-light);
+    padding-left: 1rem;
+    align-items: center;
+}
+
+.login-signup-btn, .login-signup-form input {
+    width: 100%;
+    border-radius: 25px;
+    height: 3rem;
+}
+
+.login-signup-btn {
+    background-color: var(--font-clr-light);
+    border: 1px solid transparent;
+}
+.login-signup-btn:hover {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.455);
+    border: 1px solid black;
+}
+
+.login-signup-form-container p a:hover {
+    text-decoration: underline;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition-delay: 9999s;
+    transition-delay: 9999s;
+}
+
+@keyframes autofill {
+    100% {
+        background: transparent;
+        color: inherit;
+        font-size: inherit;
+    }
+}
+
+@-webkit-keyframes autofill {
+    100% {
+        background: transparent;
+        color: inherit;
+        font-size: inherit;
+    }
+}
+

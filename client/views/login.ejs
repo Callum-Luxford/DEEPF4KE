@@ -1,4 +1,12 @@
-<h1>
+
+<section class="login-signup-section">
+
+<div class="login-signup-logo-container">
+    <img src="../images/logo2.png">
+</div>
+
+
+<h1 class="login-signup-title">
     <%= title %>
 </h1>
 
@@ -9,12 +17,15 @@
         </p>
     </div>
     <% } %>
-
-        <form action="/auth/login" method="POST">
+    <div class="login-signup-form-container">
+        <form class="login-signup-form" id="login" action="/auth/login" method="POST">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" placeholder="Username" required>
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+            <input type="password" id="password" name="password" placeholder="Password" required>
         </form>
+        <button type="submit" form="login" class="login-signup-btn btn">Login</button>
         <p><a href="/auth/signup">Don't you have an account? Sign up</a></p>
+    </div>
+    
+</section>
