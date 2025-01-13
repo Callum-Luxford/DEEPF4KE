@@ -1,0 +1,41 @@
+@import url('../css/root.css');
+
+/* HOME */
+.hero-section .hero-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: .2rem;
+}
+
+.hero-title h1 {
+    font-size: var(--font-clamp-7xl);
+    font-weight: 600;
+    color: var(--font-clr-light);
+}
+
+.hero-title p {
+    color: var(--font-clr-secondary);
+    font-size: var(--font-clamp-m);
+}
+
+.hero-title a {
+    color: var(--btn-primary-color);
+    font-size: var(--font-clamp-xl);
+}
+
+.hero-title a:hover {
+    text-decoration: underline;
+}
+
+.hero-home-container {
+    margin-top: 4rem;
+}
+
+.hero-home-container img {
+    border-radius: 20px;
+    max-height: 450px;
+    justify-self: center;
+}

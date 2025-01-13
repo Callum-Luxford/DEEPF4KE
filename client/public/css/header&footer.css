@@ -1,57 +1,6 @@
-@import url('../css/main.css');
+@import url('../css/root.css');
 
-:root {
-    --ff-primary: "Poppins", sans-serif;
-
-    --font-size-2xs: 0.625rem;
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-md: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.75rem;
-    --font-size-4xl: 2rem;
-    --font-size-5xl: 2.25rem;
-    --font-size-6xl: 2.5rem;
-    --font-size-7xl: 3rem;
-    --font-size-8xl: 3.5rem;
-    --font-size-9xl: 4rem;
-    --font-size-10xl: 4.5rem;
-    --font-size-11xl: 5rem;
-    --font-size-12xl: 6rem;
-
-    --font-clamp-md: clamp(0.75rem, 0.571rem + 0.893vw, 1rem);
-    --font-clamp-lg: clamp(1rem, 0.967rem + 0.175vw, 1.125rem);
-    --font-clamp-xl: clamp(1.125rem, 1.077rem + 0.192vw, 1.25rem);
-    --font-clamp-5xl: clamp(1.5rem, 1.212rem + 1.154vw, 2.25rem);
-    --font-clamp-7xl: clamp(2rem, 1.615rem + 1.538vw, 3rem);
-
-    --theme-clr-primary: #000000;
-    --theme-clr-secondary: #151515;
-
-    --font-clr-primary: #212121;
-    --font-clr-secondary: #323232;
-    --font-clr-light: #f6f6f6;
-
-    --border-radius: 5px;
-
-    --btn-primary-color: #0022ff;
-    --btn-secondary-color: #003cff;
-    --btn-border-radius: 5px;
-
-    --header-footer-clr: ;
-
-    --icons-filter-clr: invert(76%) sepia(44%) saturate(6008%) hue-rotate(350deg) brightness(95%) contrast(95%);
-
-    --max-width: 1200px;
-    --gradient: ;
-    --box-shadow-light: 0px 3px 6px rgba(0, 0, 0, .16);
-
-}
-
-/* ----------------------------------------------- HEADER ----------------------------------------------- */
-/* ------------------------------------------------------------------------------------------------------ */
+/* Header */
 header {
     display: flex;
     justify-content: space-between;

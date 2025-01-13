@@ -120,13 +120,13 @@ svg {
     --theme-clr-secondary: #151515;
 
     --font-clr-primary: #212121;
-    --font-clr-secondary: #323232;
+    --font-clr-secondary: #818181;
     --font-clr-light: #f6f6f6;
 
     --border-radius: 5px;
 
     --btn-primary-color: #0022ff;
-    --btn-secondary-color: ;
+    --btn-secondary-color: #003cff;
     --btn-border-radius: 5px;
 
     --header-footer-clr: ;
@@ -172,6 +172,12 @@ main {
     border: 1px solid transparent;
     padding: 4px;
 }
+
 .btn:active {
     border: 1px solid #f6f6f6;
+}
+
+section {
+    margin: 0 auto;
+    padding: 4rem 12px;
 }
