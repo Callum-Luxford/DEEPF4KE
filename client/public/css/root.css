@@ -6,6 +6,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
+
 /* ------------------------ CSS RESET -------------------------- */
 /* ------------------------------------------------------------- */
 /* Box sizing rules */
@@ -131,11 +132,13 @@ svg {
 
     --header-footer-clr: ;
 
-    --icons-filter-clr: invert(76%) sepia(44%) saturate(6008%) hue-rotate(350deg) brightness(95%) contrast(95%);
+    --icons-download-filter-clr: invert(80%) sepia(31%) saturate(4900%) hue-rotate(61deg) brightness(111%) contrast(114%);
+    --icons-download-filter-clr-hex: #39ff14;
 
     --max-width: 1200px;
     --gradient: ;
     --box-shadow-light: 0px 3px 6px rgba(0, 0, 0, .16);
+
 
 }
 

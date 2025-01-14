@@ -4,130 +4,74 @@ const processBtn = document.getElementById("process-btn");
 const processStatus = document.getElementById("process-status");
 const outputsContainer = document.getElementById("outputs");
 
-// Store uploaded files and IDs
-let faceFile = null; // Single face file
-let faceId = ""; // Single face ID
-let reelFiles = []; // Multiple reel files
-let reelIds = []; // Uploaded reel IDs from the server
+let faceFile = null;
+let faceId = "";
+let reelFiles = [];
+let reelIds = [];
 
-// Render Face Upload
 const renderFaceUpload = () => {
-  faceUploadArea.innerHTML = ""; // Clear the upload area
+  const container = faceUploadArea.querySelector(
+    ".content-input-container.container-img"
+  );
+  const imgElement = container.querySelector("img");
+  const buttonContainer = container.querySelector(".swap-remove-container");
+  const notificationContainer = faceUploadArea.querySelector(
+    ".content-description-container .content-description-text"
+  );
+
   if (faceFile) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "uploaded-item face-wrapper";
+    imgElement.src = URL.createObjectURL(faceFile);
+    buttonContainer.style.display = "flex";
+    if (notificationContainer)
+      notificationContainer.querySelector(".upload-message")?.remove();
 
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(faceFile);
-    img.className = "uploaded-image";
-
-    const buttonContainer = document.createElement("div");
-    buttonContainer.className = "button-container";
-
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
-    removeBtn.className = "remove-btn";
-    removeBtn.addEventListener("click", () => {
-      faceFile = null;
-      faceId = "";
-      renderFaceUpload(); // Re-render
-    });
-
-    const swapBtn = document.createElement("button");
-    swapBtn.textContent = "Swap";
-    swapBtn.className = "swap-btn";
-    swapBtn.addEventListener("click", () => {
+    const swapBtn = buttonContainer.querySelector(".swap");
+    swapBtn.replaceWith(swapBtn.cloneNode(true));
+    buttonContainer.querySelector(".swap").addEventListener("click", () => {
       const input = document.createElement("input");
       input.type = "file";
       input.accept = "image/*";
-      input.addEventListener("change", (e) =>
-        handleFaceUpload(e.target.files[0])
-      );
+      input.addEventListener("change", (e) => {
+        faceFile = null; // Reset the existing file
+        handleFaceUpload(e.target.files[0]);
+      });
       input.click();
     });
 
-    buttonContainer.appendChild(removeBtn);
-    buttonContainer.appendChild(swapBtn);
-
-    wrapper.appendChild(img);
-    wrapper.appendChild(buttonContainer);
-    faceUploadArea.appendChild(wrapper);
+    const removeBtn = buttonContainer.querySelector(".remove");
+    removeBtn.replaceWith(removeBtn.cloneNode(true));
+    buttonContainer.querySelector(".remove").addEventListener("click", () => {
+      faceFile = null;
+      faceId = "";
+      renderFaceUpload();
+    });
   } else {
-    const uploadButtonWrapper = document.createElement("div");
-    uploadButtonWrapper.className = "upload-more";
-    uploadButtonWrapper.innerHTML = `
-      <p>Click to upload a face image</p>
-      <input type="file" id="face-upload" accept="image/*" />
-    `;
-    uploadButtonWrapper
-      .querySelector("input")
-      .addEventListener("change", (e) => handleFaceUpload(e.target.files[0]));
-    faceUploadArea.appendChild(uploadButtonWrapper);
+    imgElement.src = "../images/image.png";
+    buttonContainer.style.display = "none";
   }
 };
 
-// Render Reel Uploads
-const renderReelUploads = () => {
-  reelUploadArea.innerHTML = ""; // Clear the upload area
-  reelFiles.forEach((file, index) => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "uploaded-item reel-wrapper";
-
-    const video = document.createElement("video");
-    video.src = URL.createObjectURL(file);
-    video.controls = true;
-    video.className = "uploaded-video";
-
-    const buttonContainer = document.createElement("div");
-    buttonContainer.className = "button-container";
-
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
-    removeBtn.className = "remove-btn";
-    removeBtn.addEventListener("click", () => {
-      reelFiles.splice(index, 1);
-      reelIds.splice(index, 1); // Remove the corresponding ID
-      renderReelUploads(); // Re-render
-    });
-
-    const swapBtn = document.createElement("button");
-    swapBtn.textContent = "Swap";
-    swapBtn.className = "swap-btn";
-    swapBtn.addEventListener("click", () => {
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "video/*";
-      input.addEventListener("change", (e) =>
-        handleReelSwap(e.target.files[0], index)
-      );
-      input.click();
-    });
-
-    buttonContainer.appendChild(removeBtn);
-    buttonContainer.appendChild(swapBtn);
-
-    wrapper.appendChild(video);
-    wrapper.appendChild(buttonContainer);
-    reelUploadArea.appendChild(wrapper);
-  });
-
-  // Add upload button for more reels
-  const uploadButtonWrapper = document.createElement("div");
-  uploadButtonWrapper.className = "upload-more";
-  uploadButtonWrapper.innerHTML = `
-    <p>Click to upload reel videos</p>
-    <input type="file" id="reel-upload" accept="video/*" multiple />
-  `;
-  uploadButtonWrapper
-    .querySelector("input")
-    .addEventListener("change", (e) =>
-      handleReelUpload(Array.from(e.target.files))
-    );
-  reelUploadArea.appendChild(uploadButtonWrapper);
-};
-
-// Handle Face Upload
 const handleFaceUpload = async (file) => {
+  const notificationContainer = faceUploadArea.querySelector(
+    ".content-description-container .content-description-text"
+  );
+  if (faceFile) {
+    if (notificationContainer) {
+      notificationContainer.querySelector(".upload-message")?.remove();
+      const message = document.createElement("p");
+      message.className = "upload-message";
+      message.style.color = "red";
+      message.style.marginTop = "2rem";
+      message.textContent = "You can only upload one face image at a time.";
+      notificationContainer.appendChild(message);
+
+      setTimeout(() => {
+        message.remove();
+      }, 5000); // Remove message after 5 seconds
+    }
+    return;
+  }
+
   faceFile = file;
   renderFaceUpload();
 
@@ -151,7 +95,58 @@ const handleFaceUpload = async (file) => {
   }
 };
 
-// Handle Reel Upload
+const renderReelUploads = () => {
+  const container = reelUploadArea.querySelector(
+    ".content-input-container.container-vid"
+  );
+  container.innerHTML = ""; // Clear existing content
+
+  reelFiles.forEach((file, index) => {
+    const video = document.createElement("video");
+    video.src = URL.createObjectURL(file);
+    video.controls = true;
+    video.className = "uploaded-video"; // Ensure class for styling
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "swap-remove-container";
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.className = "remove btn dashboard-btn";
+    removeBtn.addEventListener("click", () => {
+      reelFiles.splice(index, 1);
+      reelIds.splice(index, 1); // Remove corresponding reel ID
+      renderReelUploads();
+    });
+
+    const swapBtn = document.createElement("button");
+    swapBtn.textContent = "Swap";
+    swapBtn.className = "swap btn dashboard-btn";
+    swapBtn.addEventListener("click", () => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "video/*";
+      input.addEventListener("change", (e) => {
+        handleReelSwap(e.target.files[0], index);
+      });
+      input.click();
+    });
+
+    buttonContainer.appendChild(swapBtn);
+    buttonContainer.appendChild(removeBtn);
+    container.appendChild(video);
+    container.appendChild(buttonContainer);
+  });
+
+  if (reelFiles.length === 0) {
+    const placeholder = document.createElement("img");
+    placeholder.src = "../images/reel.png";
+    placeholder.alt = "Reel Placeholder";
+    placeholder.className = "reel-icon"; // Consistent with styling
+    container.appendChild(placeholder);
+  }
+};
+
 const handleReelUpload = async (newFiles) => {
   reelFiles = reelFiles.concat(newFiles);
   renderReelUploads();
@@ -178,9 +173,8 @@ const handleReelUpload = async (newFiles) => {
   }
 };
 
-// Handle Reel Swap
 const handleReelSwap = async (file, index) => {
-  reelFiles[index] = file; // Replace the file
+  reelFiles[index] = file;
   renderReelUploads();
 
   const formData = new FormData();
@@ -196,17 +190,61 @@ const handleReelSwap = async (file, index) => {
     if (!response.ok) throw new Error("Failed to upload reel video");
 
     const result = await response.json();
-    reelIds[index] = result.file._id; // Update the ID
+    reelIds[index] = result.file._id;
     console.log("Swapped Reel ID:", result.file._id);
   } catch (error) {
     console.error("Error swapping reel video:", error);
   }
 };
 
-// Process Button Logic
-processBtn.addEventListener("click", async () => {
-  console.log("Generate button clicked!");
+const renderOutput = (processedReel, link, isReady) => {
+  const outputContainer = document.createElement("div");
+  outputContainer.className = "output-reel";
 
+  const reelVideoContainer = document.createElement("div");
+  reelVideoContainer.className = "reel-video";
+
+  // Replace placeholder with processed reel video
+  reelVideoContainer.innerHTML = "";
+  if (isReady) {
+    const video = document.createElement("video");
+    video.src = link; // Use the processed video URL
+    video.controls = true;
+    video.className = "output-reel-video"; // Class for CSS control
+    reelVideoContainer.appendChild(video);
+  } else {
+    const placeholder = document.createElement("img");
+    placeholder.src = "../images/reel.png";
+    placeholder.alt = "Reel Placeholder";
+    placeholder.className = "reel-icon";
+    reelVideoContainer.appendChild(placeholder);
+  }
+
+  // Spinner and Download Icon
+  const loadingSpinner = document.createElement("div");
+  loadingSpinner.className = "loading-spinner";
+  loadingSpinner.style.display = isReady ? "none" : "block"; // Hide spinner if ready
+
+  const anchor = document.createElement("a");
+  anchor.href = isReady ? link : "#";
+  anchor.download = "output-video.mp4"; // Force download on click
+  anchor.className = "download-icon";
+  anchor.style.display = isReady ? "block" : "none"; // Show download icon if ready
+
+  if (isReady) {
+    const icon = document.createElement("img");
+    icon.src = "../images/download.png";
+    icon.alt = "Download Icon";
+    anchor.appendChild(icon);
+  }
+
+  outputContainer.appendChild(reelVideoContainer);
+  outputContainer.appendChild(loadingSpinner);
+  outputContainer.appendChild(anchor);
+  outputsContainer.appendChild(outputContainer);
+};
+
+const processFiles = async () => {
   if (!faceId || reelIds.length === 0) {
     processStatus.textContent =
       "Please upload exactly one face image and at least one reel video.";
@@ -228,23 +266,8 @@ processBtn.addEventListener("click", async () => {
     const result = await response.json();
     outputsContainer.innerHTML = "";
 
-    // Display outputs
-    result.downloadLinks.forEach((link) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "output-item";
-
-      const video = document.createElement("video");
-      video.src = link;
-      video.controls = true;
-
-      const downloadBtn = document.createElement("a");
-      downloadBtn.href = link;
-      downloadBtn.textContent = "Download Video";
-      downloadBtn.download = link.split("/").pop();
-
-      wrapper.appendChild(video);
-      wrapper.appendChild(downloadBtn);
-      outputsContainer.appendChild(wrapper);
+    result.downloadLinks.forEach((link, index) => {
+      renderOutput(reelFiles[index], link, true);
     });
 
     processStatus.textContent = "Processing completed!";
@@ -254,8 +277,95 @@ processBtn.addEventListener("click", async () => {
   } finally {
     processStatus.style.display = "none";
   }
+};
+
+processBtn.addEventListener("click", () => {
+  if (!faceFile || reelFiles.length === 0) {
+    const notificationContainer = document.querySelector(
+      ".dashboard-title"
+    );
+
+    if (notificationContainer) {
+      notificationContainer.querySelector(".generate-message")?.remove();
+
+      const message = document.createElement("p");
+      message.className = "generate-message";
+      message.style.color = "red";
+      message.textContent =
+        "Both the face image and at least one reel must be uploaded.";
+      notificationContainer.appendChild(message);
+
+      setTimeout(() => {
+        message.remove();
+      }, 5000);
+    }
+
+    processStatus.textContent =
+      "Please upload exactly one face image and at least one reel video.";
+    processStatus.style.color = "red";
+    setTimeout(() => {
+      processStatus.textContent = "";
+    }, 5000);
+
+    return;
+  }
+
+  const spinnerElements = document.querySelectorAll(".loading-spinner");
+  spinnerElements.forEach((spinner) => {
+    spinner.style.display = "block";
+  });
+
+  const downloadIcons = document.querySelectorAll(".download-icon");
+  downloadIcons.forEach((icon) => {
+    icon.style.display = "none";
+  });
 });
 
-// Initial Render
+processBtn.addEventListener("click", processFiles);
+
+document.querySelector(".upload-btn.btn").addEventListener("click", () => {
+  const notificationContainer = faceUploadArea.querySelector(
+    ".content-description-container .content-description-text"
+  );
+
+  // Check if a face image is already uploaded
+  if (faceFile) {
+    if (notificationContainer) {
+      notificationContainer.querySelector(".upload-message")?.remove();
+
+      const message = document.createElement("p");
+      message.className = "upload-message";
+      message.style.color = "red";
+      message.style.marginTop = "2rem";
+      message.textContent = "You can only upload one face image at a time.";
+      notificationContainer.appendChild(message);
+
+      setTimeout(() => {
+        message.remove();
+      }, 5000);
+    }
+    return;
+  }
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.addEventListener("change", (e) => handleFaceUpload(e.target.files[0]));
+  input.click();
+});
+
+document
+  .querySelector("#reel-upload-area .upload-btn.btn")
+  .addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "video/*";
+    input.multiple = true;
+    input.addEventListener("change", (e) =>
+      handleReelUpload(Array.from(e.target.files))
+    );
+    input.click();
+  });
+
 renderFaceUpload();
 renderReelUploads();

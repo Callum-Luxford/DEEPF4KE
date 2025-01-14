@@ -70,12 +70,15 @@
     /* margin-bottom: 2rem; */
 }
 
-.content-input-container img {
+.content-input-container img,
+.content-input-container .uploaded-video {
     border: 2px solid white;
     object-fit: cover;
     border-radius: 15px;
     background-color: rgb(25, 25, 25);
-    max-height: 200px;
+    max-height: 250px;
+    max-width: 100%;
+    display: block;
 }
 
 
@@ -151,5 +154,99 @@
 
 .output-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    text-align: center;
+    gap: 2rem;
+    border: 2px solid rgb(29, 29, 29);
+    border-radius: 25px;
+    padding: 1.5rem;
+    background-color: black;
+    /* height: auto; */
+    height: fit-content;
+}
+
+
+.output-inner {
+    text-align: center;
+    gap: 2rem;
+    border: 2px solid white;
+    border-radius: 25px;
+    background-color: black;
+}
+
+.output-title {
+    border-bottom: 1px solid white;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+
+.output-title h2 {
+    font-size: var(--font-clamp-xl);
+    font-weight: 600;
+    padding: .25rem;
+}
+
+.outputs-reel-container {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem 1rem;
+}
+
+.output-reel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: .5rem .5rem;
+    border-radius: 15px;
+    /* border: 1px dashed var(--icons-download-filter-clr-hex); */
+}
+
+.output-reel-video {
+    max-width: 100%;
+    /* Adjusts the video to fit its container */
+    max-height: 200px;
+    /* Maintains aspect ratio */
+    display: block;
+    /* Centers the video within the container */
+    margin: 0 auto;
+    /* Horizontally centers the video */
+    border-radius: 15px;
+    /* Matches styling of other rounded elements */
+    object-fit: cover;
+    /* Ensures video content fits nicely */
+    background-color: black;
+    /* Optional: Add background for contrast */
+}
+
+.output-reel .reel-icon {
+    filter: var(--icons-download-filter-clr);
+    width: 3rem;
+}
+
+.output-reel .download-icon {
+    filter: var(--icons-download-filter-clr);
+    width: 2rem;
+    display: none;
+    transition: all .3s ease;
+}
+.output-reel .download-icon:hover {
+    transform: translateY(-5px);
+}
+
+.loading-spinner {
+    height: 2rem;
+    width: 2rem;
+    border: 6px solid #39ff14;
+    border-color: #39ff14 transparent #39ff14 transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }

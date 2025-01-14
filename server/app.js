@@ -8,9 +8,17 @@ const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const authenticateUser = require("./middleware/authMiddleware");
 const cookieParser = require("cookie-parser");
+const { startCleanupTask } = require("../server/controllers/cleanupController");
+
+// Start the cleanup task
+startCleanupTask();
+
 
 // INIT SERVER
 const app = express();
+
+// START CLEANUP TASK
+startCleanupTask(); // Start the periodic cleanup
 
 // MIDDLEWARE
 app.use(cors());
@@ -52,6 +60,7 @@ app.use("/auth", require("./routes/auth")); // Login/signup routes
 app.use("/dashboard", require("./routes/dashboard")); // Dashbaord
 app.use("/upload", require("./routes/upload")); // Upload routes
 app.use("/process", require("./routes/process")); // Process routes
+
 
 // UPLOADS STATIC PATH
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
