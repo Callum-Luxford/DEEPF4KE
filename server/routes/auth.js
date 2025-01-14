@@ -18,13 +18,13 @@ router.get("/signup", redirectIfAuthenticated, (req, res) => {
   console.log("Auth Route - res.locals.user:", res.locals.user);
   res.render("signup", {
     layout: "layouts/main",
-    title: "Sign Up",
+    title: "SIGN UP",
   });
 });
 router.post("/signup", signup);
 
 router.get("/login", redirectIfAuthenticated, (req, res) => {
-  res.render("login", { layout: "layouts/main", title: "Login" });
+  res.render("login", { layout: "layouts/main", title: "LOGIN DETAILS" });
 });
 router.post("/login", login);
 

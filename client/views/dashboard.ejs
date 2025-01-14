@@ -1,41 +1,97 @@
-<div class="dashboard">
-    <h1>Welcome to your Dashboard, <%= user.username %>!</h1>
-    <p>Here you can upload images and reels, process them, and view your outputs.</p>
-</div>
+<section class="dashboard-section-title">
 
-<!-- Face Upload Section -->
-<div class="upload-section">
+    <div class="dashboard-title">
+        <h1>Welcome to your Dashboard, <%= user.username %>!</h1>
+        <p>Here you can upload images and reels, process them, and view your outputs.</p>
+    </div>
+
+    <!-- Face Upload Section -->
+    <!-- <div class="upload-section">
     <h2>Upload Face Image</h2>
     <div id="face-upload-area" class="upload-area">
         <input type="file" id="face-upload" accept="image/*" />
         <div id="face-preview-container" class="preview-container">
-            <!-- Face image will dynamically populate here -->
-        </div>
+            Face image will dynamically populate here -->
+    <!-- </div>
     </div>
-</div>
+</div> -->
 
-<!-- Reel Upload Section -->
-<div class="upload-section">
-    <h2>Upload Reel Videos</h2>
+    <!-- Reel Upload Section -->
+    <!-- <div class="upload-section"> -->
+    <!-- <h2>Upload Reel Videos</h2>
     <div id="reel-upload-area" class="upload-area">
         <input type="file" id="reel-upload" accept="video/*" multiple />
-        <div id="reel-preview-container" class="preview-container">
-            <!-- Reels will dynamically populate here -->
+        <div id="reel-preview-container" class="preview-container"> -->
+    <!-- Reels will dynamically populate here -->
+    <!-- </div>
+    </div>
+</div> -->
+
+    <div class="dashboard-main-container">
+        <div class="uploads-container">
+
+            <!-- Face Upload Section -->
+            <div class="upload-content">
+                <div id="face-upload-area" class="upload-area">
+
+                    <div class="content-input-container container-img">
+
+                        <img src="../images/hero-image-1.png" alt="">
+                        
+                        <div class="swap-remove-container">
+                            <button class="swap btn dashboard-btn">Swap</button>
+                            <button class="remove btn dashboard-btn">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="content-description-container">
+                        <h1>UPLOAD FACE</h1>
+                        <p>Upload image here..</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Reel Upload Section -->
+            <div class="upload-content">
+                <div id="reel-upload-area" class="upload-area">
+
+                    <div class="content-input-container container-vid">
+                        <img src="../images/hero-image-1.png" alt="">
+                    
+                        <div class="swap-remove-container">
+                            <button class="swap btn dashboard-btn">Swap</button>
+                            <button class="remove btn dashboard-btn">Remove</button>
+                        </div>
+                    </div>
+                    
+                    <div class="content-description-container">
+                        <h1>UPLOAD REELS</h1>
+                        <p>Upload reels here..</p>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Processing Section -->
+            <div class="process-section">
+                <h2>Process & Generate</h2>
+                <button class="process-btn btn dashboard-btn" id="process-btn">Generate & Process</button>
+                <p id="process-status" style="display: none;">Processing...</p>
+            </div>
         </div>
-    </div>
-</div>
 
-<!-- Processing Section -->
-<div class="process-section">
-    <h2>Process & Generate</h2>
-    <button id="process-btn">Generate & Process</button>
-    <p id="process-status" style="display: none;">Processing...</p>
-</div>
 
-<!-- Outputs Section -->
-<div class="outputs-section">
-    <h2>Generated Outputs</h2>
-    <div id="outputs" class="outputs-container">
-        <!-- Outputs will dynamically populate here -->
+        <div class="output-container">
+            <!-- Outputs Section -->
+            <div class="outputs-section">
+                <h2>Generated Outputs</h2>
+                <div id="outputs" class="outputs-container">
+                    <!-- Outputs will dynamically populate here -->
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
+
+</section>

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const particles = require("particles.js");
 
 router.get("/", (req, res) => {
   console.log("res.locals.user:", res.locals.user); // Debugging
