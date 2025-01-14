@@ -174,3 +174,21 @@ section {
     margin: 0 auto;
     padding: 4rem 12px;
 }
+
+
+#particles-js {
+    position: absolute;
+    /* Fixed so it stays in place */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    z-index: -1;
+    /* Ensure it stays behind all other content */
+    background-color: #000;
+    /* Set your background color */
+    overflow: hidden;
+    /* Prevent any potential overflow issues */
+}
