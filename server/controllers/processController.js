@@ -140,7 +140,7 @@ exports.processFile = async (req, res) => {
               )}/uploads/outputs/${uniqueFilename}`;
 
               downloadLinks.push(downloadLink);
-              
+
               resolve();
             } catch (error) {
               reject(error);

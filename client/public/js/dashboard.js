@@ -254,44 +254,243 @@ const renderOutput = (processedReel, link, isReady) => {
   outputsContainer.appendChild(outputContainer);
 };
 
+// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
+// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
+
+// const processFiles = async () => {
+//   if (!faceId || reelFiles.length === 0) {
+//     processStatus.textContent =
+//       "Please upload exactly one face image and at least one reel video.";
+//     return;
+//   }
+
+//   processStatus.style.display = "block";
+//   processStatus.style.color = "red"; // Optional styling for visibility
+//   processStatus.textContent = "Processing...";
+
+//   const dashboardTitle = document.querySelector(".dashboard-title");
+//   if (dashboardTitle) {
+//     dashboardTitle.appendChild(processStatus);
+//   }
+
+//   try {
+//     for (let i = 0; i < reelFiles.length; i++) {
+//       const reelId = reelIds[i];
+//       const delay = i * 3000; // Add delay for each reel (3 seconds per reel)
+
+//       // Determine the container to use
+//       let outputContainer;
+//       if (i === 0) {
+//         // Use the existing `output-reel` container for the first reel
+//         outputContainer = document.getElementById("output");
+//       } else {
+//         // Clone the structure of the first `output-reel` container for subsequent reels
+//         const templateContainer = document.getElementById("output");
+//         outputContainer = templateContainer.cloneNode(true);
+//         outputContainer.id = ""; // Remove duplicate ID
+//         outputsContainer.appendChild(outputContainer); // Append to the parent container
+//       }
+
+//       const reelVideoContainer = outputContainer.querySelector(".reel-video");
+//       const reelIcon = reelVideoContainer.querySelector(".reel-icon");
+//       const spinner = outputContainer.querySelector(".loading-spinner");
+//       const loadingBar = outputContainer.querySelector(".loading-bar");
+//       const downloadButton = outputContainer.querySelector(".download-icon");
+
+//       // Reset styles for cloned elements
+//       reelIcon.style.display = "block";
+//       spinner.style.display = "block";
+//       loadingBar.style.display = "block";
+//       loadingBar.style.setProperty("--width", 0); // Reset progress
+//       downloadButton.style.display = "none";
+
+//       // Set different speeds for each loading bar
+//       const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
+//       const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
+
+//       // Simulate delayed loading bar animation and spinner behavior
+//       setTimeout(async () => {
+//         let progress = 0;
+//         const interval = setInterval(() => {
+//           progress += progressIncrement;
+//           loadingBar.style.setProperty("--width", progress);
+//           if (progress >= 100) {
+//             clearInterval(interval); // Stop progress bar
+//           }
+//         }, intervalTime);
+
+//         // Send processing request
+//         const response = await fetch("/process/process", {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify({ imageIds: [faceId], videoIds: [reelId] }),
+//         });
+
+//         if (!response.ok) throw new Error("Processing failed");
+
+//         const result = await response.json();
+
+//         // Replace the reel-icon with the processed video
+//         const video = document.createElement("video");
+//         video.src = result.downloadLinks[0]; // Use the processed video URL
+//         video.controls = true;
+//         video.className = "output-reel-video"; // Class for styling
+//         reelVideoContainer.replaceChild(video, reelIcon); // Replace reel-icon with video
+
+//         // Hide spinner and show download button
+//         spinner.style.display = "none";
+//         downloadButton.href = result.downloadLinks[0];
+//         downloadButton.download = "output-video.mp4";
+//         downloadButton.style.display = "block";
+//       }, delay); // Delay each reel's loading simulation
+//     }
+
+//     processStatus.textContent = "Processing completed!";
+//   } catch (error) {
+//     console.error("Error during processing:", error);
+//     processStatus.textContent = "Error during processing.";
+//   } finally {
+//     processStatus.style.display = "none";
+//   }
+// };
+
+// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
+// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
+
 const processFiles = async () => {
-  if (!faceId || reelIds.length === 0) {
+  if (!faceId || reelFiles.length === 0) {
+    processStatus.style.display = "block";
+    processStatus.style.color = "red"; // Optional styling for visibility
     processStatus.textContent =
       "Please upload exactly one face image and at least one reel video.";
     return;
   }
 
+  // Set processStatus to show "Processing..." in red immediately
   processStatus.style.display = "block";
+  processStatus.style.color = "red"; // Ensure red color
   processStatus.textContent = "Processing...";
 
-  // Move the processStatus to the dashboard-title
+  console.log("Processing started..."); // Debugging log
+
   const dashboardTitle = document.querySelector(".dashboard-title");
   if (dashboardTitle) {
     dashboardTitle.appendChild(processStatus);
   }
 
   try {
-    const response = await fetch("/process/process", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ imageIds: [faceId], videoIds: reelIds }),
+    // Store promises for all processing tasks
+    const processingPromises = reelFiles.map((_, i) => {
+      const reelId = reelIds[i];
+      const delay = i * 3000; // Add delay for each reel (3 seconds per reel)
+
+      return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            // Determine the container to use
+            let outputContainer;
+            if (i === 0) {
+              // Use the existing `output-reel` container for the first reel
+              outputContainer = document.getElementById("output");
+            } else {
+              // Clone the structure of the first `output-reel` container for subsequent reels
+              const templateContainer = document.getElementById("output");
+              outputContainer = templateContainer.cloneNode(true);
+              outputContainer.id = ""; // Remove duplicate ID
+              outputsContainer.appendChild(outputContainer); // Append to the parent container
+            }
+
+            const reelVideoContainer =
+              outputContainer.querySelector(".reel-video");
+            const reelIcon = reelVideoContainer.querySelector(".reel-icon");
+            const spinner = outputContainer.querySelector(".loading-spinner");
+            const loadingBar = outputContainer.querySelector(".loading-bar");
+            const downloadButton =
+              outputContainer.querySelector(".download-icon");
+
+            // Reset styles for cloned elements
+            reelIcon.style.display = "block";
+            spinner.style.display = "block";
+            loadingBar.style.display = "block";
+            loadingBar.style.setProperty("--width", 0); // Reset progress
+            downloadButton.style.display = "none";
+
+            // Set different speeds for each loading bar
+            const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
+            const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
+
+            // Simulate loading bar animation
+            let progress = 0;
+            const interval = setInterval(() => {
+              progress += progressIncrement;
+              loadingBar.style.setProperty("--width", progress);
+              if (progress >= 100) {
+                clearInterval(interval); // Stop progress bar
+              }
+            }, intervalTime);
+
+            // Send processing request
+            console.log("Sending fetch request with:", {
+              imageIds: [faceId],
+              videoIds: [reelId],
+            });
+
+            const response = await fetch("/process/process", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ imageIds: [faceId], videoIds: [reelId] }),
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text(); // Log server response
+              console.error("Fetch failed with response:", errorText);
+              throw new Error("Processing failed");
+            }
+
+            const result = await response.json();
+
+            // Replace the reel-icon with the processed video
+            const video = document.createElement("video");
+            video.src = result.downloadLinks[0]; // Use the processed video URL
+            video.controls = true;
+            video.className = "output-reel-video"; // Class for styling
+            reelVideoContainer.replaceChild(video, reelIcon); // Replace reel-icon with video
+
+            // Hide spinner and show download button
+            spinner.style.display = "none";
+            downloadButton.href = result.downloadLinks[0];
+            downloadButton.download = "output-video.mp4";
+            downloadButton.style.display = "block";
+
+            resolve(); // Mark this reel as processed
+          } catch (error) {
+            console.error(`Error in reel ${i + 1}:`, error.message);
+            reject(error); // Mark this reel as failed
+          }
+        }, delay); // Delay each reel's loading simulation
+      });
     });
 
-    if (!response.ok) throw new Error("Processing failed");
+    // Wait for all processing tasks to complete
+    await Promise.all(processingPromises);
 
-    const result = await response.json();
-    outputsContainer.innerHTML = "";
+    // Clear reel uploads after all processing is complete
+    reelFiles = []; // Reset the reel files array
+    reelIds = []; // Reset the reel IDs array
+    renderReelUploads(); // Re-render the reel upload area to reflect the reset
 
-    result.downloadLinks.forEach((link, index) => {
-      renderOutput(reelFiles[index], link, true);
-    });
-
+    // Now set processStatus to green after all processing is done
+    processStatus.style.color = "green"; // Change to green on success
     processStatus.textContent = "Processing completed!";
   } catch (error) {
     console.error("Error during processing:", error);
+    processStatus.style.color = "red"; // Ensure red on error
     processStatus.textContent = "Error during processing.";
   } finally {
-    processStatus.style.display = "none";
+    // Keep the status visible for debugging, remove it after a delay
+    setTimeout(() => {
+      processStatus.style.display = "none";
+    }, 5000);
   }
 };
 
