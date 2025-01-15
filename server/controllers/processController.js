@@ -140,36 +140,7 @@ exports.processFile = async (req, res) => {
               )}/uploads/outputs/${uniqueFilename}`;
 
               downloadLinks.push(downloadLink);
-
-              // Schedule file deletion after 10 minutes
-              setTimeout(() => {
-                try {
-                  // Delete the Output file
-                  fs.unlinkSync(outputPath);
-                  console.log(
-                    "Temporary file deleted after timeout:",
-                    outputPath
-                  );
-
-                  // Delete the face file
-                  if (fs.existsSync(image.path)) {
-                    fs.unlinkSync(image.path);
-                    console.log("Temporary face file deleted:", image.path);
-                  }
-
-                  // Delete the reel file
-                  if (fs.existsSync(video.path)) {
-                    fs.unlinkSync(video.path);
-                    console.log("Temporary reel file deleted:", video.path);
-                  }
-                } catch (err) {
-                  console.error(
-                    "Error deleting temporary file after timeout:",
-                    err
-                  );
-                }
-              }, 10000); // 10 minutes
-
+              
               resolve();
             } catch (error) {
               reject(error);

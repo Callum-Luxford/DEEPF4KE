@@ -10,9 +10,6 @@ const authenticateUser = require("./middleware/authMiddleware");
 const cookieParser = require("cookie-parser");
 const { startCleanupTask } = require("../server/controllers/cleanupController");
 
-// Start the cleanup task
-startCleanupTask();
-
 
 // INIT SERVER
 const app = express();

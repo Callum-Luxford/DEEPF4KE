@@ -120,7 +120,7 @@ svg {
     --theme-clr-primary: #000000;
     --theme-clr-secondary: #151515;
 
-    --font-clr-primary: #212121;
+    --font-clr-primary: #000000;
     --font-clr-secondary: #535353;
     --font-clr-light: #f6f6f6;
 
@@ -134,6 +134,9 @@ svg {
 
     --icons-download-filter-clr: invert(80%) sepia(31%) saturate(4900%) hue-rotate(61deg) brightness(111%) contrast(114%);
     --icons-download-filter-clr-hex: #39ff14;
+    --icons-upload-filter-clr: invert(98%) sepia(79%) saturate(3414%) hue-rotate(182deg) brightness(121%) contrast(93%);
+    --icons-upload-filter-clr-hex: #f6f6f6;
+    --icons-upload-filter-clr-invert: invert(0%) sepia(0%) saturate(0%) hue-rotate(175deg) brightness(97%) contrast(104%);
 
     --max-width: 1200px;
     --gradient: ;

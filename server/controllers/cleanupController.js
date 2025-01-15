@@ -18,6 +18,7 @@ const deleteOldFiles = (folderPath, ageLimitInMinutes) => {
 
     files.forEach((file) => {
       const filePath = path.join(folderPath, file);
+
       fs.stat(filePath, (err, stats) => {
         if (err) {
           console.error(`Error getting stats for file ${filePath}:`, err);
@@ -25,6 +26,13 @@ const deleteOldFiles = (folderPath, ageLimitInMinutes) => {
         }
 
         const fileAgeInMinutes = (now - stats.mtimeMs) / (1000 * 60); // Convert from ms to minutes
+
+        // Skip files that are being written or processed (check for locks or temp extensions if possible)
+        if (file.endsWith(".lock") || file.includes("temp")) {
+          console.log(`Skipping file in use: ${filePath}`);
+          return;
+        }
+
         if (fileAgeInMinutes > ageLimitInMinutes) {
           fs.unlink(filePath, (err) => {
             if (err) {
@@ -45,9 +53,9 @@ const startCleanupTask = () => {
 
   setInterval(() => {
     console.log("Running cleanup task...");
-    deleteOldFiles(facesFolder, 1); // Delete files older than 10 minutes
-    deleteOldFiles(reelsFolder, 1);
-    deleteOldFiles(outputsFolder, 1);
+    deleteOldFiles(facesFolder, 10); // Delete files older than 10 minutes
+    deleteOldFiles(reelsFolder, 10);
+    deleteOldFiles(outputsFolder, 30); // Increase age limit for outputs folder
   }, cleanupInterval);
 };
 

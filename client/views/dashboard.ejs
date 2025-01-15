@@ -17,8 +17,14 @@
                         <img src="../images/image.png" alt="">
 
                         <div class="swap-remove-container">
-                            <button class="swap btn dashboard-btn">Swap</button>
-                            <button class="remove btn dashboard-btn">Remove</button>
+
+                            <div class="swap-remove-btn-border">
+                                <div class="swap btn  dashboard-btn">Swap</div>
+                            </div>
+                            <div class="swap-remove-btn-border">
+                                <div class="remove btn  dashboard-btn">Remove</div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -27,7 +33,21 @@
                             <h1>UPLOAD FACE</h1>
                             <p>Upload reels here..</p>
                         </div>
-                        <button class="upload-btn btn dashboard-btn">Upload</button>
+
+                        <div class="upload-btn-container">
+
+                            <div class="upload-png">
+                                <img class="take-photo btn" src="../images/camera.png" alt="">
+                            </div>
+                            <div class="upload-png">
+                                <img class="choose-gallery btn" src="../images/images.png" alt="">
+                            </div>
+                            <div class="upload-btn-border">
+                                <div class="upload-btn btn dashboard-btn">Upload</div>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -42,8 +62,14 @@
                         <img src="../images/reel.png" alt="">
 
                         <div class="swap-remove-container">
-                            <button class="swap btn dashboard-btn">Swap</button>
-                            <button class="remove btn dashboard-btn">Remove</button>
+
+                            <div class="swap-remove-btn-border">
+                                <div class="swap btn  dashboard-btn">Swap</div>
+                            </div>
+                            <div class="swap-remove-btn-border">
+                                <div class="remove btn  dashboard-btn">Remove</div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -53,7 +79,17 @@
                             <p>Upload reels here..</p>
                         </div>
 
-                        <button class="upload-btn btn dashboard-btn">Upload</button>
+                        <div class="upload-btn-container">
+                            <div class="upload-png">
+                                <img class="take-photo btn" src="../images/camera.png" alt="">
+                            </div>
+                            <div class="upload-png">
+                                <img class="choose-gallery btn" src="../images/images.png" alt="">
+                            </div>
+                            <div class="upload-btn-border">
+                                <div class="upload-btn btn dashboard-btn">Upload</div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -62,7 +98,11 @@
             <!-- Processing Section -->
             <div class="process-section">
                 <h2>Process & Generate</h2>
-                <button class="process-btn btn dashboard-btn" id="process-btn">Generate & Process</button>
+
+                <div class="upload-btn-border process-btn btn">
+                    <div id="process-btn" class="upload-btn btn dashboard-btn">Generate</div>
+                </div>
+
                 <p id="process-status" style="display: none;">Processing...</p>
             </div>
         </div>
@@ -79,6 +119,8 @@
                         <div class="reel-video">
                             <img class="reel-icon" src="../images/reel.png" alt="">
                         </div>
+
+                        <div class="loading-bar" style="display: none;" data-label=""></div>
 
                         <div class="loading-spinner"></div>
 

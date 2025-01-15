@@ -110,18 +110,28 @@ const renderReelUploads = () => {
     const buttonContainer = document.createElement("div");
     buttonContainer.className = "swap-remove-container";
 
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
+    const removeBtnBorder = document.createElement("div");
+    removeBtnBorder.className = "swap-remove-btn-border";
+
+    const removeBtn = document.createElement("div");
     removeBtn.className = "remove btn dashboard-btn";
+    removeBtn.textContent = "Remove";
+    removeBtnBorder.appendChild(removeBtn);
+
     removeBtn.addEventListener("click", () => {
       reelFiles.splice(index, 1);
       reelIds.splice(index, 1); // Remove corresponding reel ID
       renderReelUploads();
     });
 
-    const swapBtn = document.createElement("button");
-    swapBtn.textContent = "Swap";
+    const swapBtnBorder = document.createElement("div");
+    swapBtnBorder.className = "swap-remove-btn-border";
+
+    const swapBtn = document.createElement("div");
     swapBtn.className = "swap btn dashboard-btn";
+    swapBtn.textContent = "Swap";
+    swapBtnBorder.appendChild(swapBtn);
+
     swapBtn.addEventListener("click", () => {
       const input = document.createElement("input");
       input.type = "file";
@@ -132,8 +142,8 @@ const renderReelUploads = () => {
       input.click();
     });
 
-    buttonContainer.appendChild(swapBtn);
-    buttonContainer.appendChild(removeBtn);
+    buttonContainer.appendChild(swapBtnBorder);
+    buttonContainer.appendChild(removeBtnBorder);
     container.appendChild(video);
     container.appendChild(buttonContainer);
   });
@@ -254,6 +264,12 @@ const processFiles = async () => {
   processStatus.style.display = "block";
   processStatus.textContent = "Processing...";
 
+  // Move the processStatus to the dashboard-title
+  const dashboardTitle = document.querySelector(".dashboard-title");
+  if (dashboardTitle) {
+    dashboardTitle.appendChild(processStatus);
+  }
+
   try {
     const response = await fetch("/process/process", {
       method: "POST",
@@ -281,9 +297,7 @@ const processFiles = async () => {
 
 processBtn.addEventListener("click", () => {
   if (!faceFile || reelFiles.length === 0) {
-    const notificationContainer = document.querySelector(
-      ".dashboard-title"
-    );
+    const notificationContainer = document.querySelector(".dashboard-title");
 
     if (notificationContainer) {
       notificationContainer.querySelector(".generate-message")?.remove();
@@ -318,6 +332,23 @@ processBtn.addEventListener("click", () => {
   const downloadIcons = document.querySelectorAll(".download-icon");
   downloadIcons.forEach((icon) => {
     icon.style.display = "none";
+  });
+
+  // Show loading-bar
+  const loadingBars = document.querySelectorAll(".loading-bar");
+  loadingBars.forEach((loadingBar) => {
+    loadingBar.style.display = "block"; // Make loading-bar visible
+    loadingBar.style.setProperty("--width", 0); // Reset progress
+
+    // Animate the progress bar
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 5;
+      loadingBar.style.setProperty("--width", progress);
+      if (progress >= 100) {
+        clearInterval(interval); // Stop when full
+      }
+    }, 300); // Adjust speed as needed
   });
 });
 
@@ -366,6 +397,50 @@ document
     );
     input.click();
   });
+
+// Link "choose-gallery" functionality for both face and reel sections
+document.querySelectorAll(".choose-gallery").forEach((galleryBtn) => {
+  galleryBtn.addEventListener("click", (event) => {
+    const isFaceSection = event.target.closest("#face-upload-area") !== null;
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = isFaceSection ? "image/*" : "video/*"; // Accept images for face, videos for reels
+    input.addEventListener("change", (e) => {
+      if (isFaceSection) {
+        handleFaceUpload(e.target.files[0]);
+      } else {
+        handleReelUpload(Array.from(e.target.files));
+      }
+    });
+    input.click();
+  });
+});
+
+// Link "take-photo" functionality for both face and reel sections
+document.querySelectorAll(".take-photo").forEach((photoBtn) => {
+  photoBtn.addEventListener("click", (event) => {
+    const isFaceSection = event.target.closest("#face-upload-area") !== null;
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = isFaceSection ? "image/*" : "video/*"; // Accept images for face, videos for reels
+    input.capture = isFaceSection ? "environment" : null; // For face, open camera; reels default
+    input.addEventListener("change", (e) => {
+      if (isFaceSection) {
+        handleFaceUpload(e.target.files[0]);
+      } else {
+        handleReelUpload(Array.from(e.target.files));
+      }
+    });
+    input.click();
+  });
+});
+
+const loading_bar = document.getElementsByClassName("loading-bar")[0];
+setInterval(() => {
+  const computedStlye = getComputedStyle(loading_bar);
+  const width = parseFloat(computedStlye.getPropertyValue("--width")) || 0;
+  loading_bar.style.setProperty("--width", width + 0.1);
+}, 5);
 
 renderFaceUpload();
 renderReelUploads();
