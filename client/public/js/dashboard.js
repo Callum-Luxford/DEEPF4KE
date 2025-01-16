@@ -70,7 +70,7 @@ const renderFaceUpload = () => {
       renderFaceUpload();
     });
   } else {
-    imgElement.src = "../images/image.png";
+    imgElement.src = "../images/face-image-asset.png";
     buttonContainer.style.display = "none";
   }
 
@@ -282,109 +282,6 @@ const renderOutput = (processedReel, link, isReady) => {
   outputsContainer.appendChild(outputContainer);
 };
 
-// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
-// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
-
-// const processFiles = async () => {
-//   if (!faceId || reelFiles.length === 0) {
-//     processStatus.textContent =
-//       "Please upload exactly one face image and at least one reel video.";
-//     return;
-//   }
-
-//   processStatus.style.display = "block";
-//   processStatus.style.color = "red"; // Optional styling for visibility
-//   processStatus.textContent = "Processing...";
-
-//   const dashboardTitle = document.querySelector(".dashboard-title");
-//   if (dashboardTitle) {
-//     dashboardTitle.appendChild(processStatus);
-//   }
-
-//   try {
-//     for (let i = 0; i < reelFiles.length; i++) {
-//       const reelId = reelIds[i];
-//       const delay = i * 3000; // Add delay for each reel (3 seconds per reel)
-
-//       // Determine the container to use
-//       let outputContainer;
-//       if (i === 0) {
-//         // Use the existing `output-reel` container for the first reel
-//         outputContainer = document.getElementById("output");
-//       } else {
-//         // Clone the structure of the first `output-reel` container for subsequent reels
-//         const templateContainer = document.getElementById("output");
-//         outputContainer = templateContainer.cloneNode(true);
-//         outputContainer.id = ""; // Remove duplicate ID
-//         outputsContainer.appendChild(outputContainer); // Append to the parent container
-//       }
-
-//       const reelVideoContainer = outputContainer.querySelector(".reel-video");
-//       const reelIcon = reelVideoContainer.querySelector(".reel-icon");
-//       const spinner = outputContainer.querySelector(".loading-spinner");
-//       const loadingBar = outputContainer.querySelector(".loading-bar");
-//       const downloadButton = outputContainer.querySelector(".download-icon");
-
-//       // Reset styles for cloned elements
-//       reelIcon.style.display = "block";
-//       spinner.style.display = "block";
-//       loadingBar.style.display = "block";
-//       loadingBar.style.setProperty("--width", 0); // Reset progress
-//       downloadButton.style.display = "none";
-
-//       // Set different speeds for each loading bar
-//       const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
-//       const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
-
-//       // Simulate delayed loading bar animation and spinner behavior
-//       setTimeout(async () => {
-//         let progress = 0;
-//         const interval = setInterval(() => {
-//           progress += progressIncrement;
-//           loadingBar.style.setProperty("--width", progress);
-//           if (progress >= 100) {
-//             clearInterval(interval); // Stop progress bar
-//           }
-//         }, intervalTime);
-
-//         // Send processing request
-//         const response = await fetch("/process/process", {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           body: JSON.stringify({ imageIds: [faceId], videoIds: [reelId] }),
-//         });
-
-//         if (!response.ok) throw new Error("Processing failed");
-
-//         const result = await response.json();
-
-//         // Replace the reel-icon with the processed video
-//         const video = document.createElement("video");
-//         video.src = result.downloadLinks[0]; // Use the processed video URL
-//         video.controls = true;
-//         video.className = "output-reel-video"; // Class for styling
-//         reelVideoContainer.replaceChild(video, reelIcon); // Replace reel-icon with video
-
-//         // Hide spinner and show download button
-//         spinner.style.display = "none";
-//         downloadButton.href = result.downloadLinks[0];
-//         downloadButton.download = "output-video.mp4";
-//         downloadButton.style.display = "block";
-//       }, delay); // Delay each reel's loading simulation
-//     }
-
-//     processStatus.textContent = "Processing completed!";
-//   } catch (error) {
-//     console.error("Error during processing:", error);
-//     processStatus.textContent = "Error during processing.";
-//   } finally {
-//     processStatus.style.display = "none";
-//   }
-// };
-
-// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
-// THIS IS THE FUNCTION BEFORE ADDING CLEARING OF UPLAODS
-
 const processFiles = async () => {
   if (!faceId || reelFiles.length === 0) {
     processStatus.style.display = "block";
@@ -448,30 +345,57 @@ const processFiles = async () => {
             // const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
 
             // Set different speeds for each loading bar
-            const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
-            const intervalTime = i === 0 ? 300 : 500; // Reduce frequency for smoother updates
+            // const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
+            // const intervalTime = i === 0 ? 300 : 500; // Reduce frequency for smoother updates
+
+            // console.log(
+            //   `Starting loading bar ${
+            //     i + 1
+            //   }: progressIncrement=${progressIncrement}, intervalTime=${intervalTime}`
+            // );
+
+            // // Simulate loading bar animation
+            // let progress = 0; // Scoped per bar
+            // const interval = setInterval(() => {
+            //   progress += progressIncrement;
+            //   if (progress > 100) progress = 100; // Cap progress at 100%
+            //   loadingBar.style.setProperty("--width", progress);
+
+            //   if (progress >= 100) {
+            //     clearInterval(interval); // Stop progress bar
+            //   }
+
+            //   // loadingBar.style.setProperty("--width", progress);
+            //   // if (progress >= 100) {
+            //   //   clearInterval(interval); // Stop progress bar
+            //   // }
+            // }, intervalTime);
+
+            // Set speeds with variation for each loading bar
+            const baseProgressIncrement = i === 0 ? 5 : 3; // Base speed
+            const baseIntervalTime = i === 0 ? 200 : 400; // Base interval
+            const randomOffset = Math.random() * 100; // Add randomness to speed
+
+            const progressIncrement =
+              baseProgressIncrement + randomOffset / 100;
+            const intervalTime = baseIntervalTime + Math.random() * 100;
 
             console.log(
               `Starting loading bar ${
                 i + 1
-              }: progressIncrement=${progressIncrement}, intervalTime=${intervalTime}`
+              }: progressIncrement=${progressIncrement.toFixed(
+                2
+              )}, intervalTime=${intervalTime.toFixed(2)}`
             );
 
             // Simulate loading bar animation
             let progress = 0; // Scoped per bar
             const interval = setInterval(() => {
               progress += progressIncrement;
-              if (progress > 100) progress = 100; // Cap progress at 100%
-              loadingBar.style.setProperty("--width", progress);
-
+              loadingBar.style.setProperty("--width", Math.min(progress, 100));
               if (progress >= 100) {
                 clearInterval(interval); // Stop progress bar
               }
-
-              // loadingBar.style.setProperty("--width", progress);
-              // if (progress >= 100) {
-              //   clearInterval(interval); // Stop progress bar
-              // }
             }, intervalTime);
 
             // Send processing request
