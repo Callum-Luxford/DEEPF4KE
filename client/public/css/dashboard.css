@@ -227,7 +227,6 @@
     height: fit-content;
 }
 
-
 .output-inner {
     text-align: center;
     gap: 2rem;
@@ -361,4 +360,10 @@
     background-color: #39ff14;
     width: calc(var(--width, 0) * 1%);
     transition: width 0.1s ease-in-out;
+}
+
+.filter-blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+    /* Smooth transition when blur is removed */
 }

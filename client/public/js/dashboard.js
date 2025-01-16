@@ -9,6 +9,30 @@ let faceId = "";
 let reelFiles = [];
 let reelIds = [];
 
+// Helper function for blur to reset
+let blurRemoved = false; // Track if the blur has already been removed
+
+const checkUploadsAndResetBlur = () => {
+  const outputContainer = document.querySelector(".output-container");
+
+  // If the blur has already been removed, do nothing
+  if (blurRemoved) return;
+
+  // Check if both uploads are populated
+  if (faceFile && reelFiles.length > 0) {
+    // Remove blur
+    outputContainer.style.filter = "blur(0px)";
+    blurRemoved = true; // Mark blur as removed
+  }
+};
+
+// Reapply blur on page load
+window.addEventListener("load", () => {
+  const outputContainer = document.querySelector(".output-container");
+  outputContainer.style.filter = "blur(5px)";
+  blurRemoved = false; // Reset the flag on page refresh
+});
+
 const renderFaceUpload = () => {
   const container = faceUploadArea.querySelector(
     ".content-input-container.container-img"
@@ -49,6 +73,8 @@ const renderFaceUpload = () => {
     imgElement.src = "../images/image.png";
     buttonContainer.style.display = "none";
   }
+
+  checkUploadsAndResetBlur();
 };
 
 const handleFaceUpload = async (file) => {
@@ -155,6 +181,8 @@ const renderReelUploads = () => {
     placeholder.className = "reel-icon"; // Consistent with styling
     container.appendChild(placeholder);
   }
+
+  checkUploadsAndResetBlur();
 };
 
 const handleReelUpload = async (newFiles) => {
@@ -416,17 +444,34 @@ const processFiles = async () => {
             downloadButton.style.display = "none";
 
             // Set different speeds for each loading bar
+            // const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
+            // const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
+
+            // Set different speeds for each loading bar
             const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
-            const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
+            const intervalTime = i === 0 ? 300 : 500; // Reduce frequency for smoother updates
+
+            console.log(
+              `Starting loading bar ${
+                i + 1
+              }: progressIncrement=${progressIncrement}, intervalTime=${intervalTime}`
+            );
 
             // Simulate loading bar animation
-            let progress = 0;
+            let progress = 0; // Scoped per bar
             const interval = setInterval(() => {
               progress += progressIncrement;
+              if (progress > 100) progress = 100; // Cap progress at 100%
               loadingBar.style.setProperty("--width", progress);
+
               if (progress >= 100) {
                 clearInterval(interval); // Stop progress bar
               }
+
+              // loadingBar.style.setProperty("--width", progress);
+              // if (progress >= 100) {
+              //   clearInterval(interval); // Stop progress bar
+              // }
             }, intervalTime);
 
             // Send processing request
