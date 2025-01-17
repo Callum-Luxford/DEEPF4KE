@@ -8,6 +8,7 @@ header {
     height: 4rem;
     padding: 0 .8rem;
     border-bottom: 1px solid var(--font-clr-light);
+    background-color: black;
 }
 
 .nav-container {
@@ -64,7 +65,7 @@ header {
     width: 100%;
     text-align: center;
     transition: 0.3s;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: 500;
     z-index: 1;
 }
@@ -84,6 +85,12 @@ header {
 }
 
 @media (width > 768px) {
+
+    header {
+        position: sticky;
+        width: 100%;
+    }
+
     .menu-button {
         display: none;
     }
@@ -105,10 +112,12 @@ header {
         border: 1px solid transparent;
         padding: 4px;
     }
+
     .header-nav .nav-links .sign-up:hover {
         text-decoration: none !important;
         background-color: var(--btn-secondary-color);
     }
+
     .header-nav .nav-links .sign-up:active {
         border: 1px solid #f6f6f6;
     }
@@ -119,4 +128,18 @@ header {
     .header-nav .nav-links .sign-up {
         border: none;
     }
+}
+
+
+footer {
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    padding: 0 .8rem;
+    border-top: 1px solid var(--font-clr-light);
+    background-color: black;
+    color: var(--font-clr-light);
 }

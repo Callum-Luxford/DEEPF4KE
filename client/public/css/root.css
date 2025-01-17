@@ -206,5 +206,17 @@ section {
     /* Set your background color */
     overflow: hidden;
     /* Prevent any potential overflow issues */
-    /* background-color: #000000; */
+    /* background: linear-gradient(to bottom right, rgb(20, 20, 20), rgb(0, 0, 0)); */
+}
+
+.gradient {
+    width: 100%;
+    height: 200px;
+    --s: 2;
+    background:
+        linear-gradient(to bottom right,
+            rgb(50, 50, 50) 0%,
+            rgb(30, 30, 30) calc(27.59%/var(--s)),
+            rgb(10, 10, 10) calc(76.35%/var(--s)),
+            rgb(0, 0, 0) calc(100%/var(--s)));
 }

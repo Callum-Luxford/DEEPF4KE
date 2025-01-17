@@ -1,6 +1,10 @@
 @import url('../css/root.css');
 
 /* HOME */
+.hero-section {
+    
+}
+
 .hero-section .hero-title {
     display: flex;
     justify-content: center;

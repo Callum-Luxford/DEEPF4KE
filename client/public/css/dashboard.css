@@ -11,11 +11,13 @@
 
 .dashboard-title h1 {
     font-size: var(--font-clamp-5xl);
+    font-weight: 600;
 }
 
 .dashboard-title p {
     font-size: var(--font-clamp-xl);
     color: var(--font-clr-secondary);
+    /* font-weight: 600; */
 }
 
 .dashboard-main-container {

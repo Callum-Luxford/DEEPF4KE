@@ -70,7 +70,7 @@ const renderFaceUpload = () => {
       renderFaceUpload();
     });
   } else {
-    imgElement.src = "../images/face-image-image-1.png";
+    imgElement.src = "../images/face-image-image-larger.png";
     buttonContainer.style.display = "none";
   }
 
@@ -529,14 +529,15 @@ const processFiles = async () => {
             loadingBar.style.setProperty("--width", 0); // Reset progress
             downloadButton.style.display = "none";
 
-            // Set different speeds for each loading bar
-            const baseProgressIncrement = i === 0 ? 5 : 3; // Base speed
-            const baseIntervalTime = i === 0 ? 200 : 400; // Base interval
-            const randomOffset = Math.random() * 100; // Add randomness to speed
+            // Set speeds for each loading bar
+            const baseProgressIncrement = i === 0 ? 10 : 3; // Faster base speed for the first one
+            const baseIntervalTime = i === 0 ? 100 : 400; // Shorter interval for the first one
+            const randomOffset = i === 0 ? 0 : Math.random() * 100; // No randomness for the first one
 
             const progressIncrement =
               baseProgressIncrement + randomOffset / 100;
-            const intervalTime = baseIntervalTime + Math.random() * 100;
+            const intervalTime =
+              baseIntervalTime + (i === 0 ? 0 : Math.random() * 100);
 
             console.log(
               `Starting loading bar ${
