@@ -282,6 +282,205 @@ const renderOutput = (processedReel, link, isReady) => {
   outputsContainer.appendChild(outputContainer);
 };
 
+
+
+
+
+
+// LAST WORKING FUNCTION FOR PROCESS
+// LAST WORKING FUNCTION FOR PROCESS
+// LAST WORKING FUNCTION FOR PROCESS
+
+// const processFiles = async () => {
+//   if (!faceId || reelFiles.length === 0) {
+//     processStatus.style.display = "block";
+//     processStatus.style.color = "red"; // Optional styling for visibility
+//     processStatus.textContent =
+//       "Please upload exactly one face image and at least one reel video.";
+//     return;
+//   }
+
+//   // Set processStatus to show "Processing..." in red immediately
+//   processStatus.style.display = "block";
+//   processStatus.style.color = "red"; // Ensure red color
+//   processStatus.textContent = "Processing...";
+
+//   console.log("Processing started..."); // Debugging log
+
+//   const dashboardTitle = document.querySelector(".dashboard-title");
+//   if (dashboardTitle) {
+//     dashboardTitle.appendChild(processStatus);
+//   }
+
+//   try {
+//     // Store promises for all processing tasks
+//     const processingPromises = reelFiles.map((_, i) => {
+//       const reelId = reelIds[i];
+//       const delay = i * 3000; // Add delay for each reel (3 seconds per reel)
+
+//       return new Promise((resolve, reject) => {
+//         setTimeout(async () => {
+//           try {
+//             // Determine the container to use
+//             let outputContainer;
+//             if (i === 0) {
+//               // Use the existing `output-reel` container for the first reel
+//               outputContainer = document.getElementById("output");
+//             } else {
+//               // Clone the structure of the first `output-reel` container for subsequent reels
+//               const templateContainer = document.getElementById("output");
+//               outputContainer = templateContainer.cloneNode(true);
+//               outputContainer.id = ""; // Remove duplicate ID
+//               outputsContainer.appendChild(outputContainer); // Append to the parent container
+//             }
+
+//             const reelVideoContainer =
+//               outputContainer.querySelector(".reel-video");
+//             const reelIcon = reelVideoContainer.querySelector(".reel-icon");
+//             const spinner = outputContainer.querySelector(".loading-spinner");
+//             const loadingBar = outputContainer.querySelector(".loading-bar");
+//             const downloadButton =
+//               outputContainer.querySelector(".download-icon");
+
+//             // Reset styles for cloned elements
+//             reelIcon.style.display = "block";
+//             spinner.style.display = "block";
+//             loadingBar.style.display = "block";
+//             loadingBar.style.setProperty("--width", 0); // Reset progress
+//             downloadButton.style.display = "none";
+
+//             // Set different speeds for each loading bar
+//             // const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
+//             // const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
+
+//             // Set different speeds for each loading bar
+//             // const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
+//             // const intervalTime = i === 0 ? 300 : 500; // Reduce frequency for smoother updates
+
+//             // console.log(
+//             //   `Starting loading bar ${
+//             //     i + 1
+//             //   }: progressIncrement=${progressIncrement}, intervalTime=${intervalTime}`
+//             // );
+
+//             // // Simulate loading bar animation
+//             // let progress = 0; // Scoped per bar
+//             // const interval = setInterval(() => {
+//             //   progress += progressIncrement;
+//             //   if (progress > 100) progress = 100; // Cap progress at 100%
+//             //   loadingBar.style.setProperty("--width", progress);
+
+//             //   if (progress >= 100) {
+//             //     clearInterval(interval); // Stop progress bar
+//             //   }
+
+//             //   // loadingBar.style.setProperty("--width", progress);
+//             //   // if (progress >= 100) {
+//             //   //   clearInterval(interval); // Stop progress bar
+//             //   // }
+//             // }, intervalTime);
+
+//             // Set speeds with variation for each loading bar
+//             const baseProgressIncrement = i === 0 ? 5 : 3; // Base speed
+//             const baseIntervalTime = i === 0 ? 200 : 400; // Base interval
+//             const randomOffset = Math.random() * 100; // Add randomness to speed
+
+//             const progressIncrement =
+//               baseProgressIncrement + randomOffset / 100;
+//             const intervalTime = baseIntervalTime + Math.random() * 100;
+
+//             console.log(
+//               `Starting loading bar ${
+//                 i + 1
+//               }: progressIncrement=${progressIncrement.toFixed(
+//                 2
+//               )}, intervalTime=${intervalTime.toFixed(2)}`
+//             );
+
+//             // Simulate loading bar animation
+//             let progress = 0; // Scoped per bar
+//             const interval = setInterval(() => {
+//               progress += progressIncrement;
+//               loadingBar.style.setProperty("--width", Math.min(progress, 100));
+//               if (progress >= 100) {
+//                 clearInterval(interval); // Stop progress bar
+//               }
+//             }, intervalTime);
+
+//             // Send processing request
+//             console.log("Sending fetch request with:", {
+//               imageIds: [faceId],
+//               videoIds: [reelId],
+//             });
+
+//             const response = await fetch("/process/process", {
+//               method: "POST",
+//               headers: { "Content-Type": "application/json" },
+//               body: JSON.stringify({ imageIds: [faceId], videoIds: [reelId] }),
+//             });
+
+//             if (!response.ok) {
+//               const errorText = await response.text(); // Log server response
+//               console.error("Fetch failed with response:", errorText);
+//               throw new Error("Processing failed");
+//             }
+
+//             const result = await response.json();
+
+//             // Replace the reel-icon with the processed video
+//             const video = document.createElement("video");
+//             video.src = result.downloadLinks[0]; // Use the processed video URL
+//             video.controls = true;
+//             video.className = "output-reel-video"; // Class for styling
+//             reelVideoContainer.replaceChild(video, reelIcon); // Replace reel-icon with video
+
+//             // Hide spinner and show download button
+//             spinner.style.display = "none";
+//             downloadButton.href = result.downloadLinks[0];
+//             downloadButton.download = "output-video.mp4";
+//             downloadButton.style.display = "block";
+
+//             resolve(); // Mark this reel as processed
+//           } catch (error) {
+//             console.error(`Error in reel ${i + 1}:`, error.message);
+//             reject(error); // Mark this reel as failed
+//           }
+//         }, delay); // Delay each reel's loading simulation
+//       });
+//     });
+
+//     // Wait for all processing tasks to complete
+//     await Promise.all(processingPromises);
+
+//     // Clear reel uploads after all processing is complete
+//     reelFiles = []; // Reset the reel files array
+//     reelIds = []; // Reset the reel IDs array
+//     renderReelUploads(); // Re-render the reel upload area to reflect the reset
+
+//     // Now set processStatus to green after all processing is done
+//     processStatus.style.color = "green"; // Change to green on success
+//     processStatus.textContent = "Processing completed!";
+//   } catch (error) {
+//     console.error("Error during processing:", error);
+//     processStatus.style.color = "red"; // Ensure red on error
+//     processStatus.textContent = "Error during processing.";
+//   } finally {
+//     // Keep the status visible for debugging, remove it after a delay
+//     setTimeout(() => {
+//       processStatus.style.display = "none";
+//     }, 5000);
+//   }
+// };
+
+// LAST WORKING FUNCTION FOR PROCESS
+// LAST WORKING FUNCTION FOR PROCESS
+// LAST WORKING FUNCTION FOR PROCESS
+
+
+
+
+
+
 const processFiles = async () => {
   if (!faceId || reelFiles.length === 0) {
     processStatus.style.display = "block";
@@ -309,7 +508,7 @@ const processFiles = async () => {
       const reelId = reelIds[i];
       const delay = i * 3000; // Add delay for each reel (3 seconds per reel)
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         setTimeout(async () => {
           try {
             // Determine the container to use
@@ -341,37 +540,6 @@ const processFiles = async () => {
             downloadButton.style.display = "none";
 
             // Set different speeds for each loading bar
-            // const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
-            // const intervalTime = i === 0 ? 200 : 300; // Faster updates for the first one
-
-            // Set different speeds for each loading bar
-            // const progressIncrement = i === 0 ? 5 : 2; // Faster for the first one
-            // const intervalTime = i === 0 ? 300 : 500; // Reduce frequency for smoother updates
-
-            // console.log(
-            //   `Starting loading bar ${
-            //     i + 1
-            //   }: progressIncrement=${progressIncrement}, intervalTime=${intervalTime}`
-            // );
-
-            // // Simulate loading bar animation
-            // let progress = 0; // Scoped per bar
-            // const interval = setInterval(() => {
-            //   progress += progressIncrement;
-            //   if (progress > 100) progress = 100; // Cap progress at 100%
-            //   loadingBar.style.setProperty("--width", progress);
-
-            //   if (progress >= 100) {
-            //     clearInterval(interval); // Stop progress bar
-            //   }
-
-            //   // loadingBar.style.setProperty("--width", progress);
-            //   // if (progress >= 100) {
-            //   //   clearInterval(interval); // Stop progress bar
-            //   // }
-            // }, intervalTime);
-
-            // Set speeds with variation for each loading bar
             const baseProgressIncrement = i === 0 ? 5 : 3; // Base speed
             const baseIntervalTime = i === 0 ? 200 : 400; // Base interval
             const randomOffset = Math.random() * 100; // Add randomness to speed
@@ -431,28 +599,35 @@ const processFiles = async () => {
             downloadButton.download = "output-video.mp4";
             downloadButton.style.display = "block";
 
-            resolve(); // Mark this reel as processed
+            resolve({ status: "fulfilled" }); // Mark this reel as processed
           } catch (error) {
             console.error(`Error in reel ${i + 1}:`, error.message);
-            reject(error); // Mark this reel as failed
+            resolve({ status: "rejected", reason: error }); // Mark this reel as failed
           }
         }, delay); // Delay each reel's loading simulation
       });
     });
 
-    // Wait for all processing tasks to complete
-    await Promise.all(processingPromises);
+    // Wait for all processing tasks to settle
+    const results = await Promise.allSettled(processingPromises);
 
     // Clear reel uploads after all processing is complete
     reelFiles = []; // Reset the reel files array
     reelIds = []; // Reset the reel IDs array
     renderReelUploads(); // Re-render the reel upload area to reflect the reset
 
-    // Now set processStatus to green after all processing is done
-    processStatus.style.color = "green"; // Change to green on success
-    processStatus.textContent = "Processing completed!";
+    // Check results for any errors
+    const errors = results.filter((result) => result.status === "rejected");
+    if (errors.length > 0) {
+      processStatus.style.color = "red"; // Ensure red on error
+      processStatus.textContent = "Processing completed with errors.";
+      console.error("Some processing tasks failed:", errors);
+    } else {
+      processStatus.style.color = "green"; // Change to green on success
+      processStatus.textContent = "Processing completed!";
+    }
   } catch (error) {
-    console.error("Error during processing:", error);
+    console.error("Unexpected error during processing:", error);
     processStatus.style.color = "red"; // Ensure red on error
     processStatus.textContent = "Error during processing.";
   } finally {
@@ -463,10 +638,112 @@ const processFiles = async () => {
   }
 };
 
-processBtn.addEventListener("click", () => {
-  if (!faceFile || reelFiles.length === 0) {
-    const notificationContainer = document.querySelector(".dashboard-title");
 
+
+// ORIGINAL WORKING PROCESSBTN FUNCTION
+// ORIGINAL WORKING PROCESSBTN FUNCTION
+// ORIGINAL WORKING PROCESSBTN FUNCTION
+
+
+
+// processBtn.addEventListener("click", () => {
+//   if (!faceFile || reelFiles.length === 0) {
+//     const notificationContainer = document.querySelector(".dashboard-title");
+
+//     const existingOutputs = outputsContainer.querySelectorAll(".output-reel");
+//     existingOutputs.forEach((output) => output.remove());
+
+//     // Create the original container structure
+//     const originalContainer = document.createElement("div");
+//     originalContainer.className = "output-reel";
+//     originalContainer.id = "output"; // Ensure the ID matches the expected structure
+
+//     const originalVideoContainer = document.createElement("div");
+//     originalVideoContainer.className = "reel-video";
+
+//     const originalImg = document.createElement("img");
+//     originalImg.className = "reel-icon";
+//     originalImg.src = "../images/reel.png"; // Provide the default image path
+//     originalImg.alt = "Reel Placeholder";
+
+//     // Assemble the structure
+//     originalVideoContainer.appendChild(originalImg);
+//     originalContainer.appendChild(originalVideoContainer);
+
+//     // Append the new container to the outputsContainer
+//     outputsContainer.appendChild(originalContainer);
+
+//     if (notificationContainer) {
+//       notificationContainer.querySelector(".generate-message")?.remove();
+
+//       const message = document.createElement("p");
+//       message.className = "generate-message";
+//       message.style.color = "red";
+//       message.textContent =
+//         "Both the face image and at least one reel must be uploaded.";
+//       notificationContainer.appendChild(message);
+
+//       setTimeout(() => {
+//         message.remove();
+//       }, 5000);
+//     }
+
+//     processStatus.textContent =
+//       "Please upload exactly one face image and at least one reel video.";
+//     processStatus.style.color = "red";
+//     setTimeout(() => {
+//       processStatus.textContent = "";
+//     }, 5000);
+
+//     return;
+//   }
+
+//   const spinnerElements = document.querySelectorAll(".loading-spinner");
+//   spinnerElements.forEach((spinner) => {
+//     spinner.style.display = "block";
+//   });
+
+//   const downloadIcons = document.querySelectorAll(".download-icon");
+//   downloadIcons.forEach((icon) => {
+//     icon.style.display = "none";
+//   });
+
+//   // Show loading-bar
+//   const loadingBars = document.querySelectorAll(".loading-bar");
+//   loadingBars.forEach((loadingBar) => {
+//     loadingBar.style.display = "block"; // Make loading-bar visible
+//     loadingBar.style.setProperty("--width", 0); // Reset progress
+
+//     // Animate the progress bar
+//     let progress = 0;
+//     const interval = setInterval(() => {
+//       progress += 5;
+//       loadingBar.style.setProperty("--width", progress);
+//       if (progress >= 100) {
+//         clearInterval(interval); // Stop when full
+//       }
+//     }, 300); // Adjust speed as needed
+//   });
+// });
+
+// processBtn.addEventListener("click", processFiles);
+
+
+
+
+
+// ORIGINAL WORKING PROCESSBTN FUNCTION
+// ORIGINAL WORKING PROCESSBTN FUNCTION
+// ORIGINAL WORKING PROCESSBTN FUNCTION
+
+
+
+
+processBtn.addEventListener("click", () => {
+  const notificationContainer = document.querySelector(".dashboard-title");
+
+  if (!faceFile || reelFiles.length === 0) {
+    // Notify the user about missing uploads
     if (notificationContainer) {
       notificationContainer.querySelector(".generate-message")?.remove();
 
@@ -489,38 +766,48 @@ processBtn.addEventListener("click", () => {
       processStatus.textContent = "";
     }, 5000);
 
-    return;
+    return; // Exit the function since inputs are invalid
   }
 
-  const spinnerElements = document.querySelectorAll(".loading-spinner");
-  spinnerElements.forEach((spinner) => {
-    spinner.style.display = "block";
+  // Clear all existing outputs except the default container
+  const existingOutputs = outputsContainer.querySelectorAll(".output-reel");
+  existingOutputs.forEach((output, index) => {
+    if (index > 0) {
+      output.remove();
+    } else {
+      // Reset the default container to its original state
+      const reelVideoContainer = output.querySelector(".reel-video");
+      const existingVideo = reelVideoContainer.querySelector("video");
+      if (existingVideo) existingVideo.remove();
+
+      const reelIcon = document.createElement("img");
+      reelIcon.className = "reel-icon";
+      reelIcon.src = "../images/reel.png";
+      reelIcon.alt = "Reel Placeholder";
+
+      reelVideoContainer.innerHTML = ""; // Clear existing content
+      reelVideoContainer.appendChild(reelIcon);
+
+      const spinner = output.querySelector(".loading-spinner");
+      if (spinner) spinner.style.display = "none";
+
+      const loadingBar = output.querySelector(".loading-bar");
+      if (loadingBar) loadingBar.style.display = "none";
+
+      const downloadIcon = output.querySelector(".download-icon");
+      if (downloadIcon) downloadIcon.style.display = "none";
+    }
   });
 
-  const downloadIcons = document.querySelectorAll(".download-icon");
-  downloadIcons.forEach((icon) => {
-    icon.style.display = "none";
-  });
-
-  // Show loading-bar
-  const loadingBars = document.querySelectorAll(".loading-bar");
-  loadingBars.forEach((loadingBar) => {
-    loadingBar.style.display = "block"; // Make loading-bar visible
-    loadingBar.style.setProperty("--width", 0); // Reset progress
-
-    // Animate the progress bar
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 5;
-      loadingBar.style.setProperty("--width", progress);
-      if (progress >= 100) {
-        clearInterval(interval); // Stop when full
-      }
-    }, 300); // Adjust speed as needed
-  });
+  // If reelFiles is not empty, trigger processFiles
+  if (reelFiles.length > 0) {
+    console.log("Triggering processFiles..."); // Debugging log
+    processFiles(); // Call processFiles at the end, after clearing and resetting
+  } else {
+    console.log("No new uploads detected. Process not triggered."); // Debugging log
+  }
 });
 
-processBtn.addEventListener("click", processFiles);
 
 document.querySelector(".upload-btn.btn").addEventListener("click", () => {
   const notificationContainer = faceUploadArea.querySelector(
