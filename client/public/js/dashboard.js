@@ -70,7 +70,7 @@ const renderFaceUpload = () => {
       renderFaceUpload();
     });
   } else {
-    imgElement.src = "../images/face-image-asset.png";
+    imgElement.src = "../images/face-image-image-1.png";
     buttonContainer.style.display = "none";
   }
 
@@ -176,7 +176,7 @@ const renderReelUploads = () => {
 
   if (reelFiles.length === 0) {
     const placeholder = document.createElement("img");
-    placeholder.src = "../images/reel.png";
+    placeholder.src = "../images/play-button-image-larger.png";
     placeholder.alt = "Reel Placeholder";
     placeholder.className = "reel-icon"; // Consistent with styling
     container.appendChild(placeholder);
@@ -281,11 +281,6 @@ const renderOutput = (processedReel, link, isReady) => {
   outputContainer.appendChild(anchor);
   outputsContainer.appendChild(outputContainer);
 };
-
-
-
-
-
 
 // LAST WORKING FUNCTION FOR PROCESS
 // LAST WORKING FUNCTION FOR PROCESS
@@ -476,11 +471,6 @@ const renderOutput = (processedReel, link, isReady) => {
 // LAST WORKING FUNCTION FOR PROCESS
 // LAST WORKING FUNCTION FOR PROCESS
 
-
-
-
-
-
 const processFiles = async () => {
   if (!faceId || reelFiles.length === 0) {
     processStatus.style.display = "block";
@@ -638,13 +628,9 @@ const processFiles = async () => {
   }
 };
 
-
-
 // ORIGINAL WORKING PROCESSBTN FUNCTION
 // ORIGINAL WORKING PROCESSBTN FUNCTION
 // ORIGINAL WORKING PROCESSBTN FUNCTION
-
-
 
 // processBtn.addEventListener("click", () => {
 //   if (!faceFile || reelFiles.length === 0) {
@@ -728,16 +714,9 @@ const processFiles = async () => {
 
 // processBtn.addEventListener("click", processFiles);
 
-
-
-
-
 // ORIGINAL WORKING PROCESSBTN FUNCTION
 // ORIGINAL WORKING PROCESSBTN FUNCTION
 // ORIGINAL WORKING PROCESSBTN FUNCTION
-
-
-
 
 processBtn.addEventListener("click", () => {
   const notificationContainer = document.querySelector(".dashboard-title");
@@ -807,7 +786,6 @@ processBtn.addEventListener("click", () => {
     console.log("No new uploads detected. Process not triggered."); // Debugging log
   }
 });
-
 
 document.querySelector(".upload-btn.btn").addEventListener("click", () => {
   const notificationContainer = faceUploadArea.querySelector(
