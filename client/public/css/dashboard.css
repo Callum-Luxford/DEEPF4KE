@@ -46,13 +46,21 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 1rem;
-    border: 2px solid var(--font-clr-light);
+    /* border: 2px solid var(--font-clr-light); */
     border-radius: 25px;
     padding: 1.5rem;
     text-align: center;
     /* cursor: pointer; */
     /* justify-items: center; */
     /* background-color: rgb(37, 37, 37); */
+
+    /* FOR GRADIENT BORDER */
+    position: relative;
+    background: linear-gradient(black, black) padding-box,
+        linear-gradient(to bottom left, var(--font-clr-light), black) border-box;
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
 }
 
 .content-input-container {
@@ -295,9 +303,12 @@
 }
 
 @keyframes bounce {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(-10px);
     }
+
     50% {
         transform: translateY(0px);
     }
@@ -318,6 +329,7 @@
         transform: rotate(360deg);
     }
 }
+
 /* 
 .loading-bar {
     position: relative;
@@ -329,8 +341,8 @@
     overflow: hidden;
     display: none;
     /* Hidden by default */
-    /* margin-top: 0.5rem; */
-/* } */ 
+/* margin-top: 0.5rem; */
+/* } */
 
 .loading-bar {
     position: relative;
