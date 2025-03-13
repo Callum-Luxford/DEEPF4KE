@@ -3,6 +3,7 @@ const { uploadFace, uploadReel } = require("../controllers/uploadController");
 const multer = require("multer");
 const path = require("path");
 const authenticateUser = require("../middleware/authMiddleware");
+const fs = require("fs");
 
 const router = express.Router();
 
