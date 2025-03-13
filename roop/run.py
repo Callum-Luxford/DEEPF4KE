@@ -3,10 +3,17 @@ import os
 import subprocess
 import onnxruntime as ort
 from roop import core
+import shutil
 
-# Set FFmpeg path
-ffmpeg_path = r"C:\ffmpeg\bin"
-os.environ["PATH"] = ffmpeg_path + os.pathsep + os.environ["PATH"]
+# Automatically detect FFmpeg location
+ffmpeg_path = shutil.which("ffmpeg")
+
+if not ffmpeg_path:
+    print("FFmpeg not found! Please install it and ensure it's in your system PATH.")
+    exit(1)
+
+print(f"FFmpeg found at: {ffmpeg_path}")
+
 
 # Argument parser
 parser = argparse.ArgumentParser()

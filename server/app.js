@@ -10,7 +10,6 @@ const authenticateUser = require("./middleware/authMiddleware");
 const cookieParser = require("cookie-parser");
 const { startCleanupTask } = require("../server/controllers/cleanupController");
 
-
 // INIT SERVER
 const app = express();
 
@@ -21,7 +20,7 @@ startCleanupTask(); // Start the periodic cleanup
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../client/public")));
+app.use(express.static(path.resolve(__dirname, "..", "client", "public")));
 app.use(cookieParser());
 
 app.use(authenticateUser); // Populate req.user
@@ -34,7 +33,7 @@ app.use((req, res, next) => {
 
 // VIEW ENGINE
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "../client/views"));
+app.set("views", path.resolve(__dirname, "..", "client", "views"));
 
 app.set("view cache", false);
 
@@ -58,9 +57,8 @@ app.use("/dashboard", require("./routes/dashboard")); // Dashbaord
 app.use("/upload", require("./routes/upload")); // Upload routes
 app.use("/process", require("./routes/process")); // Process routes
 
-
 // UPLOADS STATIC PATH
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.resolve(__dirname, "uploads")));
 
 // SERVER START
 const port = process.env.PORT || 3000;

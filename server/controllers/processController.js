@@ -72,7 +72,7 @@ exports.processFile = async (req, res) => {
       return res.status(404).json({ error: "Files not found" });
     }
 
-    const outputDirectory = path.join(__dirname, "../uploads/outputs");
+    const outputDirectory = path.resolve(__dirname, "..", "uploads", "outputs");
     if (!fs.existsSync(outputDirectory)) {
       fs.mkdirSync(outputDirectory, { recursive: true });
       console.log("Output directory created.");
@@ -93,8 +93,15 @@ exports.processFile = async (req, res) => {
         console.log("Output Path:", outputPath);
 
         await new Promise((resolve, reject) => {
+          const pythonScript = path.resolve(
+            __dirname,
+            "..",
+            "..",
+            "roop",
+            "run.py"
+          );
           const pythonProcess = spawn("python", [
-            path.join(__dirname, "../../roop/run.py"),
+            pythonScript,
             "-s",
             image.path,
             "-t",

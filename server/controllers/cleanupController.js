@@ -2,9 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 // Define folder paths
-const facesFolder = path.join(__dirname, "../uploads/faces");
-const reelsFolder = path.join(__dirname, "../uploads/reels");
-const outputsFolder = path.join(__dirname, "../uploads/outputs");
+const facesFolder = path.resolve(__dirname, "..", "uploads", "faces");
+const reelsFolder = path.resolve(__dirname, "..", "uploads", "reels");
+const outputsFolder = path.resolve(__dirname, "..", "uploads", "outputs");
+
 
 // Function to delete old files
 const deleteOldFiles = (folderPath, ageLimitInMinutes) => {
