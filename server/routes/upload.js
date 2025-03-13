@@ -11,6 +11,12 @@ const storage = multer.diskStorage({
     const uploadPath = file.mimetype.startsWith("image")
       ? path.resolve(__dirname, "..", "uploads", "faces")
       : path.resolve(__dirname, "..", "uploads", "reels");
+
+    // Ensure the folder exists before saving the file
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {

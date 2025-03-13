@@ -15,6 +15,13 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
+:: Ensure required upload directories exist
+echo 📂 Ensuring required folders exist...
+mkdir server\uploads\faces
+mkdir server\uploads\reels
+mkdir server\uploads\outputs
+mkdir server\uploads\frames
+
 :: Install Python dependencies
 echo 📦 Installing Python dependencies...
 pip install -r requirements.txt
@@ -23,5 +30,6 @@ pip install -r requirements.txt
 echo 📦 Installing Node.js dependencies...
 npm install
 
-echo ✅ Setup complete! You can now run the app.
+echo ✅ Setup complete! You can now run the app using:
+echo 🔹 npm start
 pause

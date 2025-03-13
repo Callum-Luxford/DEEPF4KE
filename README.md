@@ -1,4 +1,4 @@
-# 🖥️ DeepF4ke Web App
+# 🖥️ SW4PS Web App
 
 ## 📌 About This Project
 
@@ -32,12 +32,14 @@ This project requires a `.env` file for configuration.
 2️⃣ Copy and paste the following into `.env`:
 
 ```ini
-MONGODB_URI=your-mongodb-connection-string
+DB_URI=mongodb+srv://your-username:your-password@your-cluster.mongodb.net/SW4PS?retryWrites=true&w=majority
 JWT_SECRET=your-secret-key
 PORT=3000
 ```
 
-3️⃣ **Update the values** with your actual credentials.
+3️⃣ **IMPORTANT:** Do **not** remove `/SW4PS` at the end of `DB_URI`!  
+   - This ensures that the app connects to the **correct database** instead of the default `test` database.
+   - If you remove it, MongoDB will automatically create and use a **new empty `test` database**, causing issues.
 
 ---
 
@@ -120,7 +122,7 @@ Ensure **Python 3+** and **Node.js 14+** are installed:
 
 ### ❌ **Error: MongoDB Not Connected**
 
-Ensure **MongoDB is running** and your `.env` file has the correct **MONGODB_URI**.
+Ensure **MongoDB is running** and your `.env` file has the correct **DB_URI**.
 
 ---
 

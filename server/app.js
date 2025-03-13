@@ -1,5 +1,6 @@
 // MODULES
 require("dotenv").config();
+console.log("Loaded DB_URI:", process.env.DB_URI);
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
