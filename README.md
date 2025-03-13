@@ -16,8 +16,8 @@ Follow these steps to set up and run the project on **Windows, macOS, or Linux**
 Open a terminal or Command Prompt and run:
 
 ```sh
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/Callum-Luxford/DEEPF4KE.git
+cd DEEPF4KE
 ```
 
 ---
